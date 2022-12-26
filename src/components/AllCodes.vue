@@ -1,9 +1,9 @@
 <template>
   <div class="bg-white z-index-1 padding-dot-5-1 box-shadow position-relative">
     <div class="position-sticky margin-left-auto top-1 height-0">
-      <button v-if="checkAllowedClipboard"
+      <button v-if="checkAllowedClipboard()"
               class="dsm-button padding-dot-5 box-shadow margin-left-auto"
-              @click="copyToClipboard(groups)">
+              @click="copyToClipboard()">
         <span class="material-icons-outlined">content_copy</span>
       </button>
     </div>
@@ -21,8 +21,11 @@
 import {PropType} from "vue"
 import {Group} from "../models/Item"
 
-defineProps({
-  groups: Array as PropType<Group[]>
+const props = defineProps({
+  groups: {
+    type: Array as PropType<Group[]>,
+    required: true
+  }
 })
 
 const essentialIconStyle = `.icon {
@@ -40,8 +43,8 @@ const escapeToBr = (str: string): string => str
     .replace(/\n/gi, '<br/>')
     .replace(/\t/gi, '&nbsp;&nbsp;&nbsp;&nbsp;')
 
-const copyToClipboard = (groups: Group[]) => {
-  const css = groups
+const copyToClipboard = () => {
+  const css = props.groups
       .map((group) => group.items)
       .flat()
       .reduce((acc, current) => current.css

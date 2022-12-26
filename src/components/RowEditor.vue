@@ -55,7 +55,10 @@ import {PropType} from "vue"
 import {directive as vClickAway} from "vue3-click-away"
 
 defineProps({
-  item: Object as PropType<Item>,
+  item: {
+    type: Object as PropType<Item>,
+    required: true
+  },
   showCloseButton: Boolean
 })
 const emit = defineEmits(['delete', 'close'])

@@ -48,11 +48,27 @@ const fitItemToThumbnail = (item: HTMLElement) => {
 }
 
 const props = defineProps({
-  isEdit: Array as PropType<boolean[][]>,
-  index: Number,
-  groupIndex: Number,
-  dragging: Boolean,
-  item: Object as Prop<Item>
+  isEdit: {
+    type: Array as PropType<boolean[][]>,
+    required: true
+  },
+  item: {
+    type: Object as PropType<Item>,
+    required: true
+  },
+  index: {
+    type: Number,
+    required: true
+  },
+  groupIndex: {
+    type: Number,
+    required: true
+  },
+  dragging: {
+    type: Boolean,
+    required: true
+  },
+
 })
 
 const emit = defineEmits(['editing', 'delete'])
