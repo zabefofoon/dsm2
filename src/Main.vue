@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue"
+import {ref} from "vue"
 import UiStyle from "./components/UiStyle.vue"
 import {Group, ItemDragEvent} from "./models/Item"
 import ListStyleBullet from "./components/ListStyleBullet.vue"
@@ -393,18 +393,13 @@ const createCss = (parentClass?: string) => groups.value
     .map((group) => group.items)
     .flat()
     .reduce((acc, current) => current?.css
-        ? acc + `${parentClass}  ` + current.css
+        ? acc + current.css
         : acc, '')
     .replace(/\n|\r|\t/gi, '')
-    .replaceAll(/    /gi, '')
-    .split('}')
-    .map((element) => element
-        ? element.startsWith('.dsm')
-            ? element + '}'
-            : '.dsm  ' + element + '}'
-        : '')
-    .filter((element) => element)
-    .join(' ')
+    .replace(/  /gi, '')
+    .replace(/\..*?{/gmi, (i) => i.includes('url')
+        ? i.replace(/}\..*?{/gmi, (s) => `${parentClass} ` + s)
+        : `${parentClass} ` + i)
 
 const isShowSaveButton = () => location.search.includes('save=true')
 
@@ -419,5 +414,4 @@ window.addEventListener('message', onMessage())
 </script>
 
 <style scoped lang="scss">
-
 </style>

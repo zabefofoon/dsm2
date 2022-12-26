@@ -26,7 +26,8 @@
         <h4 class="margin-bottom-1">html</h4>
         <codemirror v-model="item.html"
                     placeholder="Html goes here..."
-                    :style="{ height: 'fit-content', fontSize: '.9rem' }"
+                    :style="{ height: 'fit-content',
+                     fontSize: '.9rem' }"
                     :tab-size="4"
                     :extensions="[html()]"/>
       </div>
@@ -34,11 +35,12 @@
         <h4 class="margin-bottom-1">css</h4>
         <codemirror v-model="item.css"
                     placeholder="Css goes here..."
-                    :style="{ height: 'fit-content', fontSize: '.9rem' }"
+                    :style="{ height: 'fit-content',
+                     fontSize: '.9rem' }"
                     :tab-size="4"
                     :extensions="[css()]"/>
       </div>
-      <div class="flex-2 over-flow-auto box-shadow padding-2">
+      <div class="dsm flex-2 over-flow-auto box-shadow padding-2">
         <h4 class="margin-bottom-1">preview</h4>
         <div v-html="item.html"></div>
       </div>
