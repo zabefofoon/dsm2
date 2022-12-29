@@ -4,12 +4,12 @@
     <div class="display-flex gap-1 margin-bottom-1">
       <button class="dsm-button padding-dot-5 box-shadow"
               @click="deleteElement">
-        <span class="material-icons-outlined">delete</span>
+        <span class="text-1dot5 icon icon-delete"></span>
       </button>
       <button v-if="showCloseButton"
               class="dsm-button padding-dot-5 box-shadow"
               @click="close">
-        <span class="material-icons-outlined">close</span>
+        <span class="text-1dot5 icon icon-close"></span>
       </button>
     </div>
     <div class="margin-bottom-3">

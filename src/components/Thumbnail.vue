@@ -6,7 +6,7 @@
            :class="{active: isEdit[groupIndex][index], dragging}">
         <button class="dsm-button padding-dot-5 align-self-start margin-right-auto"
                 @click="deleteElement(groupIndex, index)">
-          <span class="material-icons-outlined">delete</span>
+          <span class="text-1 icon icon-delete"></span>
         </button>
         <div class="info width-100per position-absolute bottom-0 padding-dot-5 text-white">
           <h4 class="whitespace-nowrap  over-flow-hidden text-overflow-ellipsis">

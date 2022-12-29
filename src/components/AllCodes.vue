@@ -4,7 +4,7 @@
       <button v-if="checkAllowedClipboard()"
               class="dsm-button padding-dot-5 box-shadow margin-left-auto"
               @click="copyToClipboard()">
-        <span class="material-icons-outlined">content_copy</span>
+        <span class="text-1dot5 icon icon-copy">content_copy</span>
       </button>
     </div>
     <div v-html="escapeToBr(essentialIconStyle)"></div>

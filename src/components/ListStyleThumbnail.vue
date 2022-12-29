@@ -6,8 +6,8 @@
       <div class="display-flex align-items-center margin-bottom-1">
         <button class="border-none cursor-pointer"
                 @click="toggleGroupHide(groupIndex)">
-          <span v-if="isGroupHide[groupIndex]" class="material-icons-outlined">expand_less</span>
-          <span v-else class="material-icons-outlined">expand_more</span>
+          <span v-if="isGroupHide[groupIndex]" class="text-1dot5 icon icon-arrow-top"></span>
+          <span v-else class="text-1 icon icon-arrow-bottom"></span>
         </button>
         <input class="input-group-name"
                placeholder="group name"
