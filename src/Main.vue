@@ -126,6 +126,8 @@ const onMessage = () => (event: MessageEvent) => {
 }
 
 window.addEventListener('message', onMessage())
+
+console.log('action test')
 </script>
 
 <style scoped lang="scss">
