@@ -1,8 +1,8 @@
 <template>
   <button class="add-button"
-          @click.self="addElement"
+          @click="addElement"
           @drag.stop>
-    <span class="icon icon-add text-1dot5 padding-right-dot-5">add_circle_outline</span>
+    <span class="icon icon-add text-1dot5 padding-right-3">add_circle_outline</span>
     <span class="caption">{{ caption }}</span>
   </button>
 </template>

@@ -48,7 +48,7 @@
       </div>
     </div>
     <AddMarkupButton class="group"
-                     caption="Add Group"
+                     caption="Group"
                      @add="addGroup"/>
   </div>
 </template>
