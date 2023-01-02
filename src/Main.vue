@@ -1,5 +1,5 @@
 <template>
-  <div class="padding-1">
+  <div class="padding-1 over-flow-hidden">
     <UiStyle>{{ createCss('.dsm') }}</UiStyle>
     <div
         class="bg-gray padding-dot-5 display-flex gap-1 margin-bottom-1 position-sticky top-0 left-0 z-index-3">
