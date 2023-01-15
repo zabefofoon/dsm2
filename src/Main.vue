@@ -121,7 +121,7 @@ const isShowSaveButton = () => location.search.includes('save=true')
 
 const postSave = () => window.parent.postMessage({
   type: 'saveGroups',
-  groups: JSON.stringify(groups.value)
+  groups: `${groups.value}`
 }, '*')
 
 const onMessage = () => (event: MessageEvent) => {
