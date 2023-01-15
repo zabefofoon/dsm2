@@ -119,7 +119,10 @@ const createCss = (parentClass?: string) => groups.value
 
 const isShowSaveButton = () => location.search.includes('save=true')
 
-const postSave = () => window.parent.postMessage(createCss(), '*')
+const postSave = () => window.parent.postMessage({
+  type: 'saveGroups',
+  groups: groups.value
+}, '*')
 
 const onMessage = () => (event: MessageEvent) => {
   if (event.data.type === 'loadGroups') setGroups(event.data.groups)
