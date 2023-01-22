@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white p-4 shadow-md relative">
-    <div class="sticky ml-auto top-40 h-0">
+    <div class="sticky ml-auto top-20 h-0">
       <button v-if="checkAllowedClipboard()"
               class="block rounded-full p-2 h-fit shadow-md ml-auto"
               @click="copyToClipboard()">

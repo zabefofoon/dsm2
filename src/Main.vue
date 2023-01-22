@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3 pt-0 bg-gray-100 h-fit min-h-screen">
+  <div class="p-3 pt-0 bg-gray-100 h-fit min-h-screen overflow-hidden">
     <UiStyle>{{ createCss('.dsm') }}</UiStyle>
     <div class="bg-gray-100 py-3 flex gap-2 sticky top-0 left-0 z-10 text-slate-500">
       <button class="shadow-lg h-fit p-2 bg-white rounded-full"
@@ -17,22 +17,25 @@
               @click="toggleAllCode(!isShowAllCodes)">
         <span class="text-lg icon icon-code">code</span>
       </button>
-      <button v-if="isShowSaveButton()"
+      <button v-if="editMode"
               class="shadow-lg h-fit p-2 bg-white rounded-full"
               @click="postSave">
         <span class="text-lg icon icon-save">save</span>
       </button>
     </div>
     <AllCodes v-if="isShowAllCodes"
-              :groups="groups"/>
+              :groups="groups"
+              :edit-mode="editMode"/>
     <template v-else>
       <ListStyleBullet v-if="listStyle === 'bullet'"
                        :groups="groups"
+                       :edit-mode="editMode"
                        @delete="deleteElement"
                        @add="addElement"
                        @add-group="addGroup"/>
       <ListStyleThumbnail v-else
                           :groups="groups"
+                          :edit-mode="editMode"
                           @delete="deleteElement"
                           @add="addElement"
                           @add-group="addGroup"
@@ -42,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue"
+import {computed, ref} from "vue"
 import UiStyle from "./components/UiStyle.vue"
 import {Group, ItemDragEvent} from "./models/Item"
 import ListStyleBullet from "./components/ListStyleBullet.vue"
@@ -116,7 +119,7 @@ const createCss = (parentClass?: string) => groups.value
         ? i.replace(/}\..*?{/gmi, (s) => `${parentClass} ` + s)
         : `${parentClass} ` + i)
 
-const isShowSaveButton = () => location.search.includes('save=true')
+const editMode = computed(() => location.search.includes('save=true'))
 
 const postSave = () => window.parent.postMessage({
   type: 'saveGroups',

@@ -2,7 +2,8 @@
   <div class="bg-white shadow-md p-4"
        v-click-away="() => close()">
     <div class="flex gap-1 mb-4">
-      <button class="rounded-full p-1 h-fit shadow-md"
+      <button v-if="editMode"
+              class="rounded-full p-1 h-fit shadow-md"
               @click="deleteElement">
         <span class="text-lg icon icon-delete"></span>
       </button>
@@ -16,10 +17,12 @@
       <input class="w-full p-2 mb-2 border border-0 border-b border-slate-300"
              type="text"
              placeholder="name"
-             v-model="item.name"/>
+             v-model="item.name"
+             :readonly="!editMode"/>
       <input class="w-full p-2 border border-0 border-b border-slate-300"
              placeholder="description"
-             v-model="item.description"/>
+             v-model="item.description"
+             :readonly="!editMode"/>
     </div>
     <div class="flex gap-1">
       <div class="flex-1 overflow-auto shadow-md p-4">
@@ -61,7 +64,8 @@ defineProps({
     type: Object as PropType<Item>,
     required: true
   },
-  showCloseButton: Boolean
+  showCloseButton: Boolean,
+  editMode: Boolean
 })
 const emit = defineEmits(['delete', 'close'])
 const deleteElement = (): void => emit('delete')

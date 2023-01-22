@@ -8,25 +8,29 @@
       </button>
       <input class="bg-transparent px-1 text-lg border border-0 border-b border-slate-400"
              placeholder="group name"
-             v-model="group.name">
+             v-model="group.name"
+             :readonly="!editMode">
     </div>
     <template v-if="isGroupHide[groupIndex]">
-      <draggable
-          v-bind="dragOptions"
-          :list="group.items"
-          @change="onChange(groupIndex, $event)">
+      <draggable v-bind="dragOptions"
+                 :list="group.items"
+                 @change="onChange(groupIndex, $event)">
         <RowEditor v-for="(item, index) in group.items"
                    :key="index"
                    :item="item"
+                   :edit-mode="editMode"
                    class="mb-4"
                    @delete="deleteElement(groupIndex, index)"/>
       </draggable>
 
-      <AddMarkupButton class="p-2 w-full" @add="addElement(groupIndex)"/>
+      <AddMarkupButton v-if="editMode"
+                       class="p-2 w-full"
+                       @add="addElement(groupIndex)"/>
     </template>
 
   </div>
-  <AddMarkupButton class="w-full p-2 group"
+  <AddMarkupButton v-if="editMode"
+                   class="w-full p-2 group"
                    caption="Group"
                    @add="addGroup"/>
 </template>
@@ -39,7 +43,8 @@ import RowEditor from "./RowEditor.vue"
 import {VueDraggableNext as Draggable} from "vue-draggable-next"
 
 const props = defineProps({
-  groups: Array as PropType<Group[]>
+  groups: Array as PropType<Group[]>,
+  editMode: Boolean
 })
 const emit = defineEmits(['delete', 'add', 'add-group', 'drag'])
 

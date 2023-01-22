@@ -3,7 +3,8 @@
     <div class="bg-white shadow-md relative overflow-hidden">
       <div class="thumbnail-cover absolute top-0 left-0 flex items-center z-10 p-2 pointer-events-none"
            :class="{active: isEdit[groupIndex][index], dragging}">
-        <button class="bg-white p-1 rounded-full self-start pointer-events-auto"
+        <button v-if="editMode"
+                class="bg-white p-1 rounded-full self-start pointer-events-auto"
                 @click="deleteElement(groupIndex, index)">
           <span class="text-md icon icon-delete"></span>
         </button>
@@ -67,7 +68,7 @@ const props = defineProps({
     type: Boolean,
     required: true
   },
-
+  editMode: Boolean
 })
 
 const emit = defineEmits(['editing', 'delete'])

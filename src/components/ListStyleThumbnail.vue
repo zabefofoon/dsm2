@@ -9,7 +9,8 @@
       </button>
       <input class="bg-transparent px-1 text-lg border border-0 border-b border-slate-400"
              placeholder="group name"
-             v-model="group.name">
+             v-model="group.name"
+             :readonly="!editMode">
     </div>
 
     <div v-if="isGroupHide[groupIndex]"
@@ -29,23 +30,27 @@
                      :group-index="groupIndex"
                      :dragging="dragging"
                      :item="item"
+                     :edit-mode="editMode"
                      @editing="editing"
                      @delete="deleteElement"/>
           <div v-if="isEdit[groupIndex].findIndex((edit) => edit) === index"
                class="w-full">
             <RowEditor :item="group.items[isEdit[groupIndex].findIndex((item) => item)]"
+                       :edit-mode="editMode"
                        show-close-button
                        @close="editing(groupIndex, isEdit[groupIndex].findIndex((item) => item), false)"
                        @delete="deleteElement(groupIndex, isEdit[groupIndex].findIndex((item) => item))"/>
           </div>
         </template>
-        <AddMarkupButton class="thumbnail"
+        <AddMarkupButton v-if="editMode"
+                         class="thumbnail"
                          @add="addElement(groupIndex)"/>
       </draggable>
 
     </div>
   </div>
-  <AddMarkupButton class="w-full p-2"
+  <AddMarkupButton v-if="editMode"
+                   class="w-full p-2"
                    caption="Group"
                    @add="addGroup"/>
 </template>
@@ -59,7 +64,8 @@ import {VueDraggableNext as Draggable} from "vue-draggable-next"
 import Thumbnail from "./Thumbnail.vue"
 
 const props = defineProps({
-  groups: Array as PropType<Group[]>
+  groups: Array as PropType<Group[]>,
+  editMode: Boolean
 })
 
 const emit = defineEmits(['delete', 'add', 'add-group', 'drag'])
