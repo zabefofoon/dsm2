@@ -1,29 +1,29 @@
 <template>
-  <div class="bg-white box-shadow padding-2"
+  <div class="bg-white shadow-md p-4"
        v-click-away="() => close()">
-    <div class="display-flex gap-1 margin-bottom-1">
-      <button class="dsm-button padding-dot-5 box-shadow"
+    <div class="flex gap-1 mb-4">
+      <button class="rounded-full p-1 h-fit shadow-md"
               @click="deleteElement">
-        <span class="text-1dot5 icon icon-delete"></span>
+        <span class="text-lg icon icon-delete"></span>
       </button>
       <button v-if="showCloseButton"
-              class="dsm-button padding-dot-5 box-shadow"
+              class="rounded-full p-1 h-fit shadow-md"
               @click="close">
-        <span class="text-1dot5 icon icon-close"></span>
+        <span class="text-lg icon icon-close"></span>
       </button>
     </div>
-    <div class="margin-bottom-3">
-      <input class="width-100per padding-dot-5 margin-bottom-1"
+    <div class="mb-4">
+      <input class="w-full p-2 mb-2 border border-0 border-b border-slate-300"
              type="text"
              placeholder="name"
              v-model="item.name"/>
-      <input class="width-100per padding-dot-5"
+      <input class="w-full p-2 border border-0 border-b border-slate-300"
              placeholder="description"
              v-model="item.description"/>
     </div>
-    <div class="display-flex gap-1">
-      <div class="flex-1 over-flow-auto box-shadow padding-2">
-        <h4 class="margin-bottom-1">html</h4>
+    <div class="flex gap-1">
+      <div class="flex-1 overflow-auto shadow-md p-4">
+        <h4 class="mb-2">html</h4>
         <codemirror v-model="item.html"
                     placeholder="Html goes here..."
                     :style="{ height: 'fit-content',
@@ -31,8 +31,8 @@
                     :tab-size="4"
                     :extensions="[html()]"/>
       </div>
-      <div class="flex-1 over-flow-auto box-shadow padding-2">
-        <h4 class="margin-bottom-1">css</h4>
+      <div class="flex-1 overflow-auto shadow-md p-4">
+        <h4 class="mb-2">css</h4>
         <codemirror v-model="item.css"
                     placeholder="Css goes here..."
                     :style="{ height: 'fit-content',
@@ -40,8 +40,8 @@
                     :tab-size="4"
                     :extensions="[css()]"/>
       </div>
-      <div class="dsm flex-2 over-flow-auto box-shadow padding-2">
-        <h4 class="margin-bottom-1">preview</h4>
+      <div class="dsm flex-2 overflow-auto shadow-md p-4">
+        <h4 class="mb-2">preview</h4>
         <div v-html="item.html"></div>
       </div>
     </div>

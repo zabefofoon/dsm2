@@ -1,26 +1,25 @@
 <template>
-  <div class="thumbnail-container display-flex flex-wrap">
-    <div class="bg-white box-shadow position-relative over-flow-hidden">
-      <div class="thumbnail-cover position-absolute top-0 left-0 display-flex
-        align-items-center justify-content-center gap-dot-5 z-index-2 padding-dot-5"
+  <div class="thumbnail-container flex flex-wrap cursor-pointer">
+    <div class="bg-white shadow-md relative overflow-hidden">
+      <div class="thumbnail-cover absolute top-0 left-0 flex items-center z-10 p-2 pointer-events-none"
            :class="{active: isEdit[groupIndex][index], dragging}">
-        <button class="dsm-button padding-dot-5 align-self-start margin-right-auto"
+        <button class="bg-white p-1 rounded-full self-start pointer-events-auto"
                 @click="deleteElement(groupIndex, index)">
-          <span class="text-1 icon icon-delete"></span>
+          <span class="text-md icon icon-delete"></span>
         </button>
-        <div class="info width-100per position-absolute bottom-0 padding-dot-5 text-white">
-          <h4 class="whitespace-nowrap  over-flow-hidden text-overflow-ellipsis">
+        <div class="w-full absolute bottom-0 text-white pb-2">
+          <h4 class="text-sm whitespace-nowrap overflow-hidden overflow-ellipsis">
             {{ item.name }}
           </h4>
-          <p class="whitespace-nowrap  over-flow-hidden text-overflow-ellipsis">
+          <p class="font-light text-sm whitespace-nowrap overflow-hidden overflow-ellipsis">
             {{ item.description }}
           </p>
         </div>
       </div>
-      <div class="thumbnail position-relative"
+      <div class="thumbnail relative"
            @click="editing(groupIndex, index, true)">
-        <div class="dsm padding-dot-5-1 width-fit-content position-absolute
-                       left-50per top-50per translate-minus-50-minus-50">
+        <div class="dsm p-1 w-fit absolute
+                       left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div ref="itemElement" v-html="item.html"></div>
         </div>
       </div>
@@ -94,7 +93,6 @@ watch(() => props.item,
 
 <style scoped lang="scss">
 .thumbnail-container {
-  cursor: pointer;
 
   &:hover .thumbnail-cover {
     display: flex;
@@ -114,11 +112,6 @@ watch(() => props.item,
     width: 150px;
     height: 150px;
     display: none;
-    pointer-events: none;
-
-    button {
-      pointer-events: all;
-    }
 
     &.active {
       display: flex;

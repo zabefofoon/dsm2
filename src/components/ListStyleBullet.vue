@@ -1,14 +1,15 @@
 <template>
   <div v-for="(group, groupIndex) in groups"
-       class="margin-bottom-1">
-    <button class="border-none cursor-pointer"
-            @click="toggleGroupHide(groupIndex)">
-      <span v-if="isGroupHide[groupIndex]" class="text-1dot5 icon icon-arrow-top"></span>
-      <span v-else class="text-1dot5 icon icon-arrow-bottom"></span>
-    </button>
-    <input class="input-group-name margin-bottom-1 position-relative z-index-2"
-           placeholder="group name"
-           v-model="group.name">
+       class="mb-2">
+    <div class="flex items-center mb-2">
+      <button @click="toggleGroupHide(groupIndex)">
+        <span v-if="isGroupHide[groupIndex]" class="text-xl icon icon-arrow-top"></span>
+        <span v-else class="text-xl icon icon-arrow-bottom"></span>
+      </button>
+      <input class="bg-transparent px-1 text-lg border border-0 border-b border-slate-400"
+             placeholder="group name"
+             v-model="group.name">
+    </div>
     <template v-if="isGroupHide[groupIndex]">
       <draggable
           v-bind="dragOptions"
@@ -17,15 +18,15 @@
         <RowEditor v-for="(item, index) in group.items"
                    :key="index"
                    :item="item"
-                   class="margin-bottom-1"
+                   class="mb-4"
                    @delete="deleteElement(groupIndex, index)"/>
       </draggable>
 
-      <AddMarkupButton class="bullet" @add="addElement(groupIndex)"/>
+      <AddMarkupButton class="p-2 w-full" @add="addElement(groupIndex)"/>
     </template>
 
   </div>
-  <AddMarkupButton class="margin-bottom-5 group"
+  <AddMarkupButton class="w-full p-2 group"
                    caption="Group"
                    @add="addGroup"/>
 </template>

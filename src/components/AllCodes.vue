@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-white z-index-1 padding-dot-5-1 box-shadow position-relative">
-    <div class="position-sticky margin-left-auto top-1 height-0">
+  <div class="bg-white p-4 shadow-md relative">
+    <div class="sticky ml-auto top-40 h-0">
       <button v-if="checkAllowedClipboard()"
-              class="dsm-button padding-dot-5 box-shadow margin-left-auto"
+              class="block rounded-full p-2 h-fit shadow-md ml-auto"
               @click="copyToClipboard()">
-        <span class="text-1dot5 icon icon-copy">content_copy</span>
+        <span class="text-xl icon icon-copy">content_copy</span>
       </button>
     </div>
     <div v-html="escapeToBr(essentialIconStyle)"></div>

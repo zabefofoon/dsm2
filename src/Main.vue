@@ -1,27 +1,26 @@
 <template>
-  <div class="padding-1 over-flow-hidden">
+  <div class="p-3 pt-0 bg-gray-100 h-fit min-h-screen">
     <UiStyle>{{ createCss('.dsm') }}</UiStyle>
-    <div
-        class="bg-gray padding-dot-5 display-flex gap-1 margin-bottom-1 position-sticky top-0 left-0 z-index-3">
-      <button class="dsm-button padding-dot-5 box-shadow"
+    <div class="bg-gray-100 py-3 flex gap-2 sticky top-0 left-0 z-10 text-slate-500">
+      <button class="shadow-lg h-fit p-2 bg-white rounded-full"
               :class="{active: !isShowAllCodes && listStyle === 'thumbnail'}"
               @click="setListStyle('thumbnail');toggleAllCode(false)">
-        <span class="text-1dot5 icon icon-widgets"></span>
+        <span class="text-lg icon icon-widgets"></span>
       </button>
-      <button class="dsm-button padding-dot-5 box-shadow"
+      <button class="shadow-lg h-fit p-2 bg-white rounded-full"
               :class="{active: !isShowAllCodes && listStyle === 'bullet'}"
               @click="setListStyle('bullet');toggleAllCode(false)">
-        <span class="text-1dot5 icon icon-bullet">format_list_bulleted</span>
+        <span class="text-lg icon icon-bullet">format_list_bulleted</span>
       </button>
-      <button class="dsm-button padding-dot-5 box-shadow"
+      <button class="shadow-lg h-fit p-2 bg-white rounded-full"
               :class="{active: isShowAllCodes}"
               @click="toggleAllCode(!isShowAllCodes)">
-        <span class="text-1dot5 icon icon-code">code</span>
+        <span class="text-lg icon icon-code">code</span>
       </button>
       <button v-if="isShowSaveButton()"
-              class="dsm-button padding-dot-5 box-shadow"
+              class="shadow-lg h-fit p-2 bg-white rounded-full"
               @click="postSave">
-        <span class="text-1dot5 icon icon-save">save</span>
+        <span class="text-lg icon icon-save">save</span>
       </button>
     </div>
     <AllCodes v-if="isShowAllCodes"
@@ -133,4 +132,8 @@ window.addEventListener('message', onMessage())
 </script>
 
 <style scoped lang="scss">
+.active {
+  background: #1B98E0;
+  color: white;
+}
 </style>

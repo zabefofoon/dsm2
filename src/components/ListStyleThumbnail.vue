@@ -1,56 +1,53 @@
 <template>
-  <div class="margin-bottom-1">
-    <div v-for="(group, groupIndex) in groups"
-         :key="groupIndex"
-         class="margin-bottom-1">
-      <div class="display-flex align-items-center margin-bottom-1">
-        <button class="border-none cursor-pointer"
-                @click="toggleGroupHide(groupIndex)">
-          <span v-if="isGroupHide[groupIndex]" class="text-1dot5 icon icon-arrow-top"></span>
-          <span v-else class="text-1 icon icon-arrow-bottom"></span>
-        </button>
-        <input class="input-group-name"
-               placeholder="group name"
-               v-model="group.name">
-      </div>
-
-      <div v-if="isGroupHide[groupIndex]"
-           class="display-flex flex-wrap align-items-center gap-2">
-        <draggable class="margin-bottom-1 display-flex gap-2 align-items-center flex-wrap"
-                   :list="group.items"
-                   v-bind="dragOptions"
-                   draggable=".draggable"
-                   @start="dragging = true"
-                   @end="dragging = false"
-                   @change="onChange(groupIndex, $event)">
-          <template v-for="(item, index) in group.items"
-                    :key="`${index}${group.items.length}`">
-            <Thumbnail class="draggable"
-                       :is-edit="isEdit"
-                       :index="index"
-                       :group-index="groupIndex"
-                       :dragging="dragging"
-                       :item="item"
-                       @editing="editing"
-                       @delete="deleteElement"/>
-            <div v-if="isEdit[groupIndex].findIndex((edit) => edit) === index"
-                 class="width-100vw">
-              <RowEditor :item="group.items[isEdit[groupIndex].findIndex((item) => item)]"
-                         show-close-button
-                         @close="editing(groupIndex, isEdit[groupIndex].findIndex((item) => item), false)"
-                         @delete="deleteElement(groupIndex, isEdit[groupIndex].findIndex((item) => item))"/>
-            </div>
-          </template>
-          <AddMarkupButton class="thumbnail"
-                           @add="addElement(groupIndex)"/>
-        </draggable>
-
-      </div>
+  <div v-for="(group, groupIndex) in groups"
+       :key="groupIndex"
+       class="mb-2">
+    <div class="flex items-center mb-2">
+      <button @click="toggleGroupHide(groupIndex)">
+        <span v-if="isGroupHide[groupIndex]" class="text-xl icon icon-arrow-top"></span>
+        <span v-else class="text-xl icon icon-arrow-bottom"></span>
+      </button>
+      <input class="bg-transparent px-1 text-lg border border-0 border-b border-slate-400"
+             placeholder="group name"
+             v-model="group.name">
     </div>
-    <AddMarkupButton class="group"
-                     caption="Group"
-                     @add="addGroup"/>
+
+    <div v-if="isGroupHide[groupIndex]"
+         class="flex flex-wrap items-center gap-2">
+      <draggable class="w-full mb-1 flex gap-2 items-center flex-wrap"
+                 :list="group.items"
+                 v-bind="dragOptions"
+                 draggable=".draggable"
+                 @start="dragging = true"
+                 @end="dragging = false"
+                 @change="onChange(groupIndex, $event)">
+        <template v-for="(item, index) in group.items"
+                  :key="`${index}${group.items.length}`">
+          <Thumbnail class="draggable"
+                     :is-edit="isEdit"
+                     :index="index"
+                     :group-index="groupIndex"
+                     :dragging="dragging"
+                     :item="item"
+                     @editing="editing"
+                     @delete="deleteElement"/>
+          <div v-if="isEdit[groupIndex].findIndex((edit) => edit) === index"
+               class="w-full">
+            <RowEditor :item="group.items[isEdit[groupIndex].findIndex((item) => item)]"
+                       show-close-button
+                       @close="editing(groupIndex, isEdit[groupIndex].findIndex((item) => item), false)"
+                       @delete="deleteElement(groupIndex, isEdit[groupIndex].findIndex((item) => item))"/>
+          </div>
+        </template>
+        <AddMarkupButton class="thumbnail"
+                         @add="addElement(groupIndex)"/>
+      </draggable>
+
+    </div>
   </div>
+  <AddMarkupButton class="w-full p-2"
+                   caption="Group"
+                   @add="addGroup"/>
 </template>
 
 <script setup lang="ts">
