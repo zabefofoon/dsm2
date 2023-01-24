@@ -45,7 +45,8 @@
       </div>
       <div class="dsm flex-2 overflow-auto shadow-md p-4">
         <h4 class="mb-2">preview</h4>
-        <div v-html="item.html"></div>
+        <div class="unreset"
+             v-html="item.html"></div>
       </div>
     </div>
   </div>
