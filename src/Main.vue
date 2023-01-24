@@ -2,23 +2,23 @@
   <div class="p-3 pt-0 bg-gray-100 h-fit min-h-screen overflow-hidden">
     <UiStyle>{{ createCss('.dsm') }}</UiStyle>
     <div class="bg-gray-100 py-3 flex gap-2 sticky top-0 left-0 z-10 text-slate-500">
-      <button class="shadow-lg h-fit p-2 bg-white rounded-full"
+      <button class="dsm-button shadow-lg h-fit p-2 bg-white rounded-full"
               :class="{active: !isShowAllCodes && listStyle === 'thumbnail'}"
               @click="setListStyle('thumbnail');toggleAllCode(false)">
         <span class="text-lg icon icon-widgets"></span>
       </button>
-      <button class="shadow-lg h-fit p-2 bg-white rounded-full"
+      <button class="dsm-button shadow-lg h-fit p-2 bg-white rounded-full"
               :class="{active: !isShowAllCodes && listStyle === 'bullet'}"
               @click="setListStyle('bullet');toggleAllCode(false)">
         <span class="text-lg icon icon-bullet">format_list_bulleted</span>
       </button>
-      <button class="shadow-lg h-fit p-2 bg-white rounded-full"
+      <button class="dsm-button shadow-lg h-fit p-2 bg-white rounded-full"
               :class="{active: isShowAllCodes}"
               @click="toggleAllCode(!isShowAllCodes)">
         <span class="text-lg icon icon-code">code</span>
       </button>
       <button v-if="editMode"
-              class="shadow-lg h-fit p-2 bg-white rounded-full"
+              class="dsm-button shadow-lg h-fit p-2 bg-white rounded-full"
               @click="postSave">
         <span class="text-lg icon icon-save">save</span>
       </button>
@@ -107,17 +107,22 @@ const onDrag = (groupIndex: number, event: ItemDragEvent) => {
   }
 }
 
-const createCss = (parentClass?: string) => groups.value
-    .map((group) => group.items)
-    .flat()
-    .reduce((acc, current) => current?.css
-        ? acc + current.css
-        : acc, '')
-    .replace(/\n|\r|\t/gi, '')
-    .replace(/  /gi, '')
-    .replace(/\..*?{/gmi, (i) => i.includes('url')
-        ? i.replace(/}\..*?{/gmi, (s) => `${parentClass} ` + s)
-        : `${parentClass} ` + i)
+const createCss = (parentClass?: string) => {
+  const x = groups.value
+      .map((group) => group.items)
+      .flat()
+      .reduce((acc, current) => current?.css
+          ? acc + current.css
+          : acc, '')
+  console.log(x)
+
+  return groups.value
+      .map((group) => group.items)
+      .flat()
+      .reduce((acc, current) => current?.css
+          ? acc + current.css
+          : acc, '')
+}
 
 const editMode = computed(() => location.search.includes('save=true'))
 

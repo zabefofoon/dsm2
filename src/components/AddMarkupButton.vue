@@ -1,5 +1,5 @@
 <template>
-  <button class="add-button bg-transparent border border-dashed border-slate-400 text-slate-500
+  <button class="dsm-button add-button bg-transparent border border-dashed border-slate-400 text-slate-500
   flex items-center justify-center self-start"
           @click="addElement"
           @drag.stop>

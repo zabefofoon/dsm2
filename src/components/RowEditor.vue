@@ -3,12 +3,12 @@
        v-click-away="() => close()">
     <div class="flex gap-1 mb-4">
       <button v-if="editMode"
-              class="rounded-full p-1 h-fit shadow-md"
+              class="dsm-button rounded-full p-1 h-fit shadow-md"
               @click="deleteElement">
         <span class="text-lg icon icon-delete"></span>
       </button>
       <button v-if="showCloseButton"
-              class="rounded-full p-1 h-fit shadow-md"
+              class="dsm-button rounded-full p-1 h-fit shadow-md"
               @click="close">
         <span class="text-lg icon icon-close"></span>
       </button>

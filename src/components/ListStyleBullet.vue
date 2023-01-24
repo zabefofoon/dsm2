@@ -2,7 +2,8 @@
   <div v-for="(group, groupIndex) in groups"
        class="mb-2">
     <div class="flex items-center mb-2">
-      <button @click="toggleGroupHide(groupIndex)">
+      <button class="dsm-button"
+              @click="toggleGroupHide(groupIndex)">
         <span v-if="isGroupHide[groupIndex]" class="text-xl icon icon-arrow-top"></span>
         <span v-else class="text-xl icon icon-arrow-bottom"></span>
       </button>

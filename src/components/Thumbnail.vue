@@ -4,15 +4,15 @@
       <div class="thumbnail-cover absolute top-0 left-0 flex items-center z-10 pointer-events-none"
            :class="{active: isEdit[groupIndex][index], dragging}">
         <button v-if="editMode"
-                class="mt-2 ml-2 bg-white p-1 rounded-full self-start pointer-events-auto"
+                class="dsm-button mt-2 ml-2 bg-white p-1 rounded-full self-start pointer-events-auto"
                 @click="deleteElement(groupIndex, index)">
           <span class="text-md icon icon-delete"></span>
         </button>
         <div class="w-full absolute bottom-0 text-white pb-2 px-2">
-          <h4 class="text-sm font-semibold whitespace-nowrap overflow-hidden overflow-ellipsis">
+          <h4 class="m-0 text-sm font-semibold whitespace-nowrap overflow-hidden overflow-ellipsis">
             {{ item.name }}
           </h4>
-          <p class="font-light text-sm whitespace-nowrap overflow-hidden overflow-ellipsis">
+          <p class="m-0 font-light text-sm whitespace-nowrap overflow-hidden overflow-ellipsis">
             {{ item.description }}
           </p>
         </div>

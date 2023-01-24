@@ -1,5 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
 
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.dsm-button {
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -101,5 +116,3 @@
   -webkit-mask-image: url($src);
   mask-image: url($src);
 }
-
-@import "unreset";
