@@ -1,15 +1,15 @@
 <template>
   <div class="thumbnail-container flex flex-wrap cursor-pointer">
     <div class="bg-white shadow-md relative overflow-hidden">
-      <div class="thumbnail-cover absolute top-0 left-0 flex items-center z-10 p-2 pointer-events-none"
+      <div class="thumbnail-cover absolute top-0 left-0 flex items-center z-10 pointer-events-none"
            :class="{active: isEdit[groupIndex][index], dragging}">
         <button v-if="editMode"
-                class="bg-white p-1 rounded-full self-start pointer-events-auto"
+                class="mt-2 ml-2 bg-white p-1 rounded-full self-start pointer-events-auto"
                 @click="deleteElement(groupIndex, index)">
           <span class="text-md icon icon-delete"></span>
         </button>
-        <div class="w-full absolute bottom-0 text-white pb-2">
-          <h4 class="text-sm whitespace-nowrap overflow-hidden overflow-ellipsis">
+        <div class="w-full absolute bottom-0 text-white pb-2 px-2">
+          <h4 class="text-sm font-semibold whitespace-nowrap overflow-hidden overflow-ellipsis">
             {{ item.name }}
           </h4>
           <p class="font-light text-sm whitespace-nowrap overflow-hidden overflow-ellipsis">
@@ -21,7 +21,9 @@
            @click="editing(groupIndex, index, true)">
         <div class="dsm p-1 w-fit absolute
                        left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div ref="itemElement" v-html="item.html"></div>
+          <div ref="itemElement"
+               class="unreset"
+               v-html="item.html"></div>
         </div>
       </div>
     </div>
@@ -29,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import {Prop, PropType, ref, watch} from "vue"
+import {PropType, ref, watch} from "vue"
 import {Item} from "../models/Item"
 
 const fitItemToThumbnail = (item: HTMLElement) => {

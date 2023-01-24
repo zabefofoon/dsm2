@@ -43,51 +43,63 @@
 }
 
 .icon-widgets {
-  -webkit-mask-image: url(https://api.iconify.design/material-symbols/widgets-outline.svg);
-  mask-image: url(https://api.iconify.design/material-symbols/widgets-outline.svg);
+  $src: 'https://api.iconify.design/material-symbols/widgets-outline.svg';
+  -webkit-mask-image: url($src);
+  mask-image: url($src);
 }
 
 .icon-bullet {
-  -webkit-mask-image: url(https://api.iconify.design/zondicons/list-bullet.svg);
-  mask-image: url(https://api.iconify.design/zondicons/list-bullet.svg);
+  $src: 'https://api.iconify.design/zondicons/list-bullet.svg';
+  -webkit-mask-image: url($src);
+  mask-image: url($src);
 }
 
 .icon-code {
-  -webkit-mask-image: url(https://api.iconify.design/material-symbols/code.svg);
-  mask-image: url(https://api.iconify.design/material-symbols/code.svg);
+  $src: 'https://api.iconify.design/material-symbols/code.svg';
+  -webkit-mask-image: url($src);
+  mask-image: url($src);
 }
 
 .icon-save {
-  -webkit-mask-image: url(https://api.iconify.design/mdi/content-save-all-outline.svg);
-  mask-image: url(https://api.iconify.design/mdi/content-save-all-outline.svg);
+  $src: 'https://api.iconify.design/mdi/content-save-all-outline.svg';
+  -webkit-mask-image: url($src);
+  mask-image: url($src);
 }
 
 .icon-copy {
-  -webkit-mask-image: url(https://api.iconify.design/mdi/content-copy.svg);
-  mask-image: url(https://api.iconify.design/mdi/content-copy.svg);
+  $src: 'https://api.iconify.design/mdi/content-copy.svg';
+  -webkit-mask-image: url($src);
+  mask-image: url($src);
 }
 
 .icon-add {
-  -webkit-mask-image: url(https://api.iconify.design/material-symbols/add-circle-outline.svg);
-  mask-image: url(https://api.iconify.design/material-symbols/add-circle-outline.svg);
+  $src: 'https://api.iconify.design/material-symbols/add-circle-outline.svg';
+  -webkit-mask-image: url($src);
+  mask-image: url($src);
 }
 
 .icon-delete {
-  -webkit-mask-image: url(https://api.iconify.design/material-symbols/delete-outline.svg);
-  mask-image: url(https://api.iconify.design/material-symbols/delete-outline.svg);
+  $src: 'https://api.iconify.design/material-symbols/delete-outline.svg';
+  -webkit-mask-image: url($src);
+  mask-image: url($src);
 }
 
 .icon-arrow-top {
-  -webkit-mask-image: url(https://api.iconify.design/ic/baseline-keyboard-arrow-up.svg);
-  mask-image: url(https://api.iconify.design/ic/baseline-keyboard-arrow-up.svg);
+  $src: 'https://api.iconify.design/ic/baseline-keyboard-arrow-up.svg';
+  -webkit-mask-image: url($src);
+  mask-image: url($src);
 }
 
 .icon-arrow-bottom {
-  -webkit-mask-image: url(https://api.iconify.design/ic/baseline-keyboard-arrow-down.svg);
-  mask-image: url(https://api.iconify.design/ic/baseline-keyboard-arrow-down.svg);
+  $src: 'https://api.iconify.design/ic/baseline-keyboard-arrow-down.svg';
+  -webkit-mask-image: url($src);
+  mask-image: url($src);
 }
 
 .icon-close {
-  -webkit-mask-image: url(https://api.iconify.design/ic/outline-close.svg);
-  mask-image: url(https://api.iconify.design/ic/outline-close.svg);
+  $src: 'https://api.iconify.design/ic/outline-close.svg';
+  -webkit-mask-image: url($src);
+  mask-image: url($src);
 }
+
+@import "unreset";
