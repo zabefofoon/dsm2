@@ -116,3 +116,9 @@ html, body {
   -webkit-mask-image: url($src);
   mask-image: url($src);
 }
+
+.icon-download {
+  $src: 'https://api.iconify.design/material-symbols/download.svg';
+  -webkit-mask-image: url($src);
+  mask-image: url($src);
+}

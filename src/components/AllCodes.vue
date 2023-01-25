@@ -1,10 +1,14 @@
 <template>
   <div class="bg-white p-4 shadow-md relative">
-    <div class="sticky ml-auto top-20 h-0">
+    <div class="sticky ml-auto top-20 h-0 flex items-center justify-end w-full">
       <button v-if="checkAllowedClipboard()"
-              class="dsm-button bg-white block rounded-full p-2 h-fit shadow-md ml-auto"
+              class="dsm-button bg-white block rounded-full p-2 h-fit shadow-md"
+              @click="download()">
+        <span class="text-xl icon icon-download"></span>
+      </button>
+      <button class="dsm-button bg-white block rounded-full p-2 h-fit shadow-md"
               @click="copyToClipboard()">
-        <span class="text-xl icon icon-copy">content_copy</span>
+        <span class="text-xl icon icon-copy"></span>
       </button>
     </div>
     <textarea class="outline-0 w-full h-fit m-0 p-0 border-0"
@@ -52,6 +56,17 @@ const calcHeight = (value: string) => {
   const numberOfLineBreaks = (value.match(/\n/g) || []).length
   return numberOfLineBreaks * 15.2;
 }
+
+const download = () => {
+  const element = document.createElement('a')
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(cssValue.value));
+  element.setAttribute('download', 'style.css')
+  element.style.display = 'none'
+  document.body.appendChild(element)
+  element.click()
+  document.body.removeChild(element)
+}
+
 </script>
 
 <style scoped lang="scss">
