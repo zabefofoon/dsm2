@@ -2,6 +2,7 @@
   <draggable v-bind="dragOptions"
              :list="groups"
              :group="{put: false}"
+             :disabled="disableDrag"
              @change="onGroupsChange">
     <div v-for="(group, groupIndex) in groups"
          :key="groupIndex"
@@ -24,6 +25,7 @@
                    :list="group.items"
                    v-bind="dragOptions"
                    draggable=".draggable"
+                   :disabled="disableDrag"
                    @start="dragging = true"
                    @end="dragging = false"
                    @change="onChange(groupIndex, $event)">
@@ -46,7 +48,9 @@
                          show-close-button
                          @close="editing(groupIndex, isEdit[groupIndex].findIndex((item) => item), false)"
                          @delete="deleteElement(groupIndex, isEdit[groupIndex].findIndex((item) => item))"
-                         @copy="copyElement(groupIndex, isEdit[groupIndex].findIndex((item) => item))"/>
+                         @copy="copyElement(groupIndex, isEdit[groupIndex].findIndex((item) => item))"
+                         @edit-start="setDisableDrag(true)"
+                         @edit-end="setDisableDrag(false)"/>
             </div>
           </template>
           <AddMarkupButton v-if="editMode"
@@ -103,6 +107,11 @@ const onChange = (groupIndex: number, $event: ItemDragEvent) => emit('drag', gro
 const isGroupHide = ref<boolean[]>([])
 const toggleGroupHide = (groupIndex: number) => {
   isGroupHide.value[groupIndex] = !isGroupHide.value[groupIndex]
+}
+
+const disableDrag = ref(false)
+const setDisableDrag = (value: boolean) => {
+  disableDrag.value = value
 }
 
 watch(() => [props.groups?.length, props.groups?.map((group) => group.items)?.flat().length],

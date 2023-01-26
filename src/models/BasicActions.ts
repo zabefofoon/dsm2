@@ -10,7 +10,7 @@ export class CopyAction implements Action {
   }
 
   do(groups: Group[]): void {
-    const copied = groups[this.groupIndex].items[this.rowIndex]
+    const copied = JSON.parse(JSON.stringify(groups[this.groupIndex].items[this.rowIndex]))
     groups[this.groupIndex].items.push(copied)
   }
 

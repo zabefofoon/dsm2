@@ -2,6 +2,7 @@
   <draggable v-bind="dragOptions"
              :list="groups"
              :group="{put: false}"
+             :disabled="disableDrag"
              @change="onGroupsChange">
     <div v-for="(group, groupIndex) in groups"
          class="mb-2">
@@ -19,6 +20,7 @@
       <template v-if="isGroupHide[groupIndex]">
         <draggable v-bind="dragOptions"
                    :list="group.items"
+                   :disabled="disableDrag"
                    @change="onChange(groupIndex, $event)">
           <RowEditor v-for="(item, index) in group.items"
                      :key="index"
@@ -26,11 +28,13 @@
                      :edit-mode="editMode"
                      class="mb-4"
                      @delete="deleteElement(groupIndex, index)"
-                     @copy="deleteElement(groupIndex, index)"/>
+                     @copy="copyElement(groupIndex, index)"
+                     @edit-start="setDisableDrag(true)"
+                     @edit-end="setDisableDrag(false)"/>
         </draggable>
-
         <AddMarkupButton v-if="editMode"
                          class="p-2 w-full"
+                         caption="Add"
                          @add="addElement(groupIndex)"/>
       </template>
 
@@ -77,7 +81,13 @@ const isGroupHide = ref<boolean[]>([])
 const toggleGroupHide = (groupIndex: number) => {
   isGroupHide.value[groupIndex] = !isGroupHide.value[groupIndex]
 }
-watch(() => [props.groups?.length, props.groups?.map((group) => group.items)?.flat().length],
+
+const disableDrag = ref(false)
+const setDisableDrag = (value: boolean) => {
+  disableDrag.value = value
+}
+
+watch(() => [props.groups?.length],
     () => {
       isGroupHide.value = Array(props.groups?.length).fill(false)
     }, {immediate: true})

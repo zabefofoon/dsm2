@@ -23,11 +23,15 @@
              type="text"
              placeholder="name"
              v-model="item.name"
-             :readonly="!editMode"/>
+             :readonly="!editMode"
+             @focusin="$emit('edit-start')"
+             @focusout="$emit('edit-end')"/>
       <input class="w-full p-2 border border-0 border-b border-slate-300"
              placeholder="description"
              v-model="item.description"
-             :readonly="!editMode"/>
+             :readonly="!editMode"
+             @focusin="$emit('edit-start')"
+             @focusout="$emit('edit-end')"/>
     </div>
     <div class="flex gap-1">
       <div class="flex-1 overflow-auto shadow-md p-4">
@@ -37,7 +41,9 @@
                     :style="{ height: 'fit-content',
                      fontSize: '.9rem' }"
                     :tab-size="4"
-                    :extensions="[html()]"/>
+                    :extensions="[html()]"
+                    @focusin="$emit('edit-start')"
+                    @focusout="$emit('edit-end')"/>
       </div>
       <div class="flex-1 overflow-auto shadow-md p-4">
         <h4 class="mb-2">css</h4>
@@ -46,12 +52,16 @@
                     :style="{ height: 'fit-content',
                      fontSize: '.9rem' }"
                     :tab-size="4"
-                    :extensions="[css()]"/>
+                    :extensions="[css()]"
+                    @focusin="$emit('edit-start')"
+                    @focusout="$emit('edit-end')"/>
       </div>
       <div class="dsm flex-2 overflow-auto shadow-md p-4">
         <h4 class="mb-2">preview</h4>
         <div class="unreset"
-             v-html="item.html"></div>
+             v-html="item.html"
+             @focusin="$emit('edit-start')"
+             @focusout="$emit('edit-end')"></div>
       </div>
     </div>
   </div>
@@ -73,7 +83,7 @@ defineProps({
   showCloseButton: Boolean,
   editMode: Boolean
 })
-const emit = defineEmits(['delete', 'close', 'copy'])
+const emit = defineEmits(['delete', 'close', 'copy', 'edit-start', 'edit-end'])
 const deleteElement = (): void => emit('delete')
 const copyElement = (): void => emit('copy')
 const close = (): void => emit('close')
