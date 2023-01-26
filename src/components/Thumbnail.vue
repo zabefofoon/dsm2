@@ -5,6 +5,11 @@
            :class="{active: isEdit[groupIndex][index], dragging}">
         <button v-if="editMode"
                 class="dsm-button mt-2 ml-2 bg-white p-1 rounded-full self-start pointer-events-auto"
+                @click="copyElement(groupIndex, index)">
+          <span class="text-md icon icon-copy"></span>
+        </button>
+        <button v-if="editMode"
+                class="dsm-button mt-2 ml-2 bg-white p-1 rounded-full self-start pointer-events-auto"
                 @click="deleteElement(groupIndex, index)">
           <span class="text-md icon icon-delete"></span>
         </button>
@@ -73,7 +78,7 @@ const props = defineProps({
   editMode: Boolean
 })
 
-const emit = defineEmits(['editing', 'delete'])
+const emit = defineEmits(['editing', 'delete', 'copy'])
 
 const itemElement = ref<HTMLElement | HTMLElement[]>()
 
@@ -84,6 +89,8 @@ const editing = (groupIndex: number,
 const deleteElement = (groupIndex: number,
                        index: number) => emit('delete', groupIndex, index)
 
+const copyElement = (groupIndex: number,
+                       index: number) => emit('copy', groupIndex, index)
 
 watch(() => props.item,
     () => setTimeout(() => {

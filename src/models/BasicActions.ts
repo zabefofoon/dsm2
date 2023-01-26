@@ -1,6 +1,34 @@
 import {Action} from "./ActionManager"
 import {Group, Item} from "./Item"
 
+export class CopyAction implements Action {
+  readonly actionName = 'Copy'
+  deletedItem?: Item
+
+  constructor(private groupIndex: number,
+              private rowIndex: number) {
+  }
+
+  do(groups: Group[]): void {
+    const copied = groups[this.groupIndex].items[this.rowIndex]
+    groups[this.groupIndex].items.push(copied)
+  }
+
+  undo(groups: Group[]): void {
+    this.deletedItem = groups[this.groupIndex].items.splice(this.rowIndex, 1)[0]
+  }
+
+  redo(groups: Group[]): void {
+    if (this.deletedItem)
+      groups[this.groupIndex].items.push(this.deletedItem)
+  }
+
+  static of(groupIndex: number, rowIndex: number): CopyAction {
+    return new CopyAction(groupIndex, rowIndex)
+  }
+}
+
+
 export class RemoveAction implements Action {
   readonly actionName = 'Remove'
   deletedItems?: Item[]

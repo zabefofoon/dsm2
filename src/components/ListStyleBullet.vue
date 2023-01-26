@@ -25,7 +25,8 @@
                      :item="item"
                      :edit-mode="editMode"
                      class="mb-4"
-                     @delete="deleteElement(groupIndex, index)"/>
+                     @delete="deleteElement(groupIndex, index)"
+                     @copy="deleteElement(groupIndex, index)"/>
         </draggable>
 
         <AddMarkupButton v-if="editMode"
@@ -53,7 +54,7 @@ const props = defineProps({
   groups: Array as PropType<Group[]>,
   editMode: Boolean
 })
-const emit = defineEmits(['delete', 'add', 'add-group', 'drag', 'drag-groups'])
+const emit = defineEmits(['delete', 'add', 'add-group', 'drag', 'drag-groups', 'copy'])
 
 const dragOptions = {
   animation: 200,
@@ -68,6 +69,7 @@ const onChange = (groupIndex: number, $event: ItemDragEvent) => emit('drag', gro
 
 const onGroupsChange = ($event: ItemDragEvent) => emit('drag-groups', $event)
 
+const copyElement = (groupIndex: number, index: number): void => emit('copy', groupIndex, index)
 const deleteElement = (groupIndex: number, index: number): void => emit('delete', groupIndex, index)
 const addElement = (groupIndex: number): void => emit('add', groupIndex)
 

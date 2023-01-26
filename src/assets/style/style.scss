@@ -122,3 +122,10 @@ html, body {
   -webkit-mask-image: url($src);
   mask-image: url($src);
 }
+
+
+.icon-copy {
+  $src: 'https://api.iconify.design/material-symbols/content-copy-outline.svg';
+  -webkit-mask-image: url($src);
+  mask-image: url($src);
+}

@@ -37,14 +37,16 @@
                        :item="item"
                        :edit-mode="editMode"
                        @editing="editing"
-                       @delete="deleteElement"/>
+                       @delete="deleteElement"
+                       @copy="copyElement"/>
             <div v-if="isEdit[groupIndex].findIndex((edit) => edit) === index"
                  class="w-full">
               <RowEditor :item="group.items[isEdit[groupIndex].findIndex((item) => item)]"
                          :edit-mode="editMode"
                          show-close-button
                          @close="editing(groupIndex, isEdit[groupIndex].findIndex((item) => item), false)"
-                         @delete="deleteElement(groupIndex, isEdit[groupIndex].findIndex((item) => item))"/>
+                         @delete="deleteElement(groupIndex, isEdit[groupIndex].findIndex((item) => item))"
+                         @copy="copyElement(groupIndex, isEdit[groupIndex].findIndex((item) => item))"/>
             </div>
           </template>
           <AddMarkupButton v-if="editMode"
@@ -74,7 +76,7 @@ const props = defineProps({
   editMode: Boolean
 })
 
-const emit = defineEmits(['delete', 'add', 'add-group', 'drag', 'drag-groups'])
+const emit = defineEmits(['delete', 'add', 'add-group', 'drag', 'drag-groups', 'copy'])
 
 const dragOptions = {
   animation: 200,
@@ -85,6 +87,7 @@ const dragOptions = {
 
 const addGroup = (): void => emit('add-group')
 
+const copyElement = (groupIndex: number, index: number): void => emit('copy', groupIndex, index)
 const deleteElement = (groupIndex: number, index: number): void => emit('delete', groupIndex, index)
 const addElement = (groupIndex: number): void => emit('add', groupIndex)
 const onGroupsChange = ($event: ItemDragEvent) => emit('drag-groups', $event)

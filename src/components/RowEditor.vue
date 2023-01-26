@@ -4,6 +4,11 @@
     <div class="flex gap-1 mb-4">
       <button v-if="editMode"
               class="dsm-button rounded-full p-1 h-fit shadow-md"
+              @click="copyElement">
+        <span class="text-lg icon icon-copy"></span>
+      </button>
+      <button v-if="editMode"
+              class="dsm-button rounded-full p-1 h-fit shadow-md"
               @click="deleteElement">
         <span class="text-lg icon icon-delete"></span>
       </button>
@@ -68,8 +73,9 @@ defineProps({
   showCloseButton: Boolean,
   editMode: Boolean
 })
-const emit = defineEmits(['delete', 'close'])
+const emit = defineEmits(['delete', 'close', 'copy'])
 const deleteElement = (): void => emit('delete')
+const copyElement = (): void => emit('copy')
 const close = (): void => emit('close')
 </script>
 

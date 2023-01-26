@@ -33,7 +33,8 @@
                        @delete="deleteElement"
                        @add="addElement"
                        @add-group="addGroup"
-                       @drag-groups="onDragGroups"/>
+                       @drag-groups="onDragGroups"
+                       @copy="copyElement"/>
       <ListStyleThumbnail v-else
                           :groups="groups"
                           :edit-mode="editMode"
@@ -41,7 +42,8 @@
                           @add="addElement"
                           @add-group="addGroup"
                           @drag="onDrag"
-                          @drag-groups="onDragGroups"/>
+                          @drag-groups="onDragGroups"
+                          @copy="copyElement"/>
     </template>
   </div>
 </template>
@@ -56,7 +58,7 @@ import AllCodes from "./components/AllCodes.vue"
 import {ActionManager} from "./models/ActionManager"
 import {
   AddAction,
-  AddGroupAction,
+  AddGroupAction, CopyAction,
   DragGroupsMovedAction,
   DragMovedAction,
   DragRemovedAction,
@@ -90,6 +92,7 @@ const addGroup = () => {
 
 const addElement = (groupIndex: number) => actionManager.execute(AddAction.of(groupIndex))
 const deleteElement = (groupIndex: number, rowIndex: number) => actionManager.execute(RemoveAction.of(groupIndex, rowIndex))
+const copyElement = (groupIndex: number, rowIndex: number) => actionManager.execute(CopyAction.of(groupIndex, rowIndex))
 
 const isShowAllCodes = ref(false)
 const toggleAllCode = (value: boolean) => {
