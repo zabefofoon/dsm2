@@ -11,7 +11,7 @@ export class CopyAction implements Action {
 
   do(groups: Group[]): void {
     const copied = JSON.parse(JSON.stringify(groups[this.groupIndex].items[this.rowIndex]))
-    groups[this.groupIndex].items.push(copied)
+    groups[this.groupIndex].items.splice(this.rowIndex, 0, copied)
   }
 
   undo(groups: Group[]): void {
@@ -20,7 +20,7 @@ export class CopyAction implements Action {
 
   redo(groups: Group[]): void {
     if (this.deletedItem)
-      groups[this.groupIndex].items.push(this.deletedItem)
+      groups[this.groupIndex].items.splice(this.rowIndex, 0, this.deletedItem)
   }
 
   static of(groupIndex: number, rowIndex: number): CopyAction {
