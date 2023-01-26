@@ -137,3 +137,31 @@ export class AddGroupAction implements Action {
     return new AddGroupAction()
   }
 }
+
+export class DragGroupsMovedAction implements Action {
+  readonly actionName = 'DragGroupsMoved'
+
+  constructor(private newIndex: number,
+              private oldIndex: number,) {
+  }
+
+  do(groups: Group[]): void {
+    const group = groups.splice(this.newIndex, 1)[0]
+    groups.splice(this.newIndex, 0, group)
+  }
+
+  redo(groups: Group[]): void {
+    const group = groups.splice(this.oldIndex, 1)[0]
+    groups.splice(this.newIndex, 0, group)
+  }
+
+  undo(groups: Group[]): void {
+    const group = groups.splice(this.newIndex, 1)[0]
+    groups.splice(this.oldIndex, 0, group)
+  }
+
+  static of(newIndex = 0,
+            oldIndex = 0): DragGroupsMovedAction {
+    return new DragGroupsMovedAction(newIndex, oldIndex)
+  }
+}

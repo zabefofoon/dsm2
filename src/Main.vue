@@ -32,14 +32,16 @@
                        :edit-mode="editMode"
                        @delete="deleteElement"
                        @add="addElement"
-                       @add-group="addGroup"/>
+                       @add-group="addGroup"
+                       @drag-groups="onDragGroups"/>
       <ListStyleThumbnail v-else
                           :groups="groups"
                           :edit-mode="editMode"
                           @delete="deleteElement"
                           @add="addElement"
                           @add-group="addGroup"
-                          @drag="onDrag"/>
+                          @drag="onDrag"
+                          @drag-groups="onDragGroups"/>
     </template>
   </div>
 </template>
@@ -52,7 +54,14 @@ import ListStyleBullet from "./components/ListStyleBullet.vue"
 import ListStyleThumbnail from "./components/ListStyleThumbnail.vue"
 import AllCodes from "./components/AllCodes.vue"
 import {ActionManager} from "./models/ActionManager"
-import {AddAction, AddGroupAction, DragMovedAction, DragRemovedAction, RemoveAction} from "./models/BasicActions"
+import {
+  AddAction,
+  AddGroupAction,
+  DragGroupsMovedAction,
+  DragMovedAction,
+  DragRemovedAction,
+  RemoveAction
+} from "./models/BasicActions"
 
 type ListType = 'thumbnail' | 'bullet'
 
@@ -60,7 +69,7 @@ const listStyle = ref<ListType>('thumbnail')
 const setListStyle = (listType: ListType): void => {
   listStyle.value = listType
 }
-const groups = ref<Group[]>([])
+const groups = ref<Group[]>([{name: 'Group2', items: []}, {name: 'Group1', items: []}])
 let actionManager = new ActionManager(groups.value)
 
 const setGroups = (_groups: Group[]) => {
@@ -104,6 +113,13 @@ const onDrag = (groupIndex: number, event: ItemDragEvent) => {
     dragData.fromItemIndex = Number(event.removed.oldIndex)
 
     actionManager.execute(DragRemovedAction.of(JSON.parse(JSON.stringify(dragData))))
+  }
+}
+
+const onDragGroups = (event: ItemDragEvent) => {
+  if (event.moved) {
+    const {newIndex, oldIndex} = event.moved
+    actionManager.execute(DragGroupsMovedAction.of(newIndex, oldIndex))
   }
 }
 
