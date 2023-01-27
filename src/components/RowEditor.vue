@@ -1,19 +1,20 @@
 <template>
   <div class="bg-white shadow-md p-4"
-       v-click-away="() => close()">
+       v-click-away="() => close()"
+       @keydown.stop>
     <div class="flex gap-1 mb-4">
       <button v-if="editMode"
-              class="dsm-button rounded-full p-1 h-fit shadow-md"
+              class="dsm-button bg-white border border-solid border-slate-200 rounded-full p-1 h-fit shadow-md"
               @click="copyElement">
         <span class="text-lg icon icon-copy"></span>
       </button>
       <button v-if="editMode"
-              class="dsm-button rounded-full p-1 h-fit shadow-md"
+              class="dsm-button bg-white border border-solid border-slate-200 rounded-full p-1 h-fit shadow-md"
               @click="deleteElement">
         <span class="text-lg icon icon-delete"></span>
       </button>
       <button v-if="showCloseButton"
-              class="dsm-button rounded-full p-1 h-fit shadow-md"
+              class="dsm-button bg-white border border-solid border-slate-200 rounded-full p-1 h-fit shadow-md"
               @click="close">
         <span class="text-lg icon icon-close"></span>
       </button>

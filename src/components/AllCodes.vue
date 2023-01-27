@@ -1,12 +1,12 @@
 <template>
   <div class="bg-white p-4 shadow-md relative">
-    <div class="sticky ml-auto top-20 h-0 flex items-center justify-end w-full">
+    <div class="sticky pt-4 ml-auto top-20 h-0 flex items-center justify-end w-full gap-2">
       <button v-if="checkAllowedClipboard()"
-              class="dsm-button bg-white block rounded-full p-2 h-fit shadow-md"
+              class="dsm-button border border-solid border-slate-200 bg-white block rounded-full p-2 h-fit shadow-md"
               @click="download()">
         <span class="text-xl icon icon-download"></span>
       </button>
-      <button class="dsm-button bg-white block rounded-full p-2 h-fit shadow-md"
+      <button class="dsm-button border border-solid border-slate-200 bg-white block rounded-full p-2 h-fit shadow-md"
               @click="copyToClipboard()">
         <span class="text-xl icon icon-copy"></span>
       </button>

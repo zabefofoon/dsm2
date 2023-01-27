@@ -3,24 +3,18 @@
     <div class="bg-white shadow-md relative overflow-hidden">
       <div class="thumbnail-cover absolute top-0 left-0 flex items-center z-10 pointer-events-none"
            :class="{active: isEdit[groupIndex][index], dragging}">
+      </div>
+      <div class="absolute top-0 left-0 z-10">
         <button v-if="editMode"
-                class="dsm-button mt-2 ml-2 bg-white p-1 rounded-full self-start pointer-events-auto"
+                class="dsm-button border border-solid border-slate-200 mt-2 ml-2 bg-white p-1 rounded-full self-start pointer-events-auto"
                 @click="copyElement(groupIndex, index)">
           <span class="text-md icon icon-copy"></span>
         </button>
         <button v-if="editMode"
-                class="dsm-button mt-2 ml-2 bg-white p-1 rounded-full self-start pointer-events-auto"
+                class="dsm-button border border-solid border-slate-200 mt-2 ml-2 bg-white p-1 rounded-full self-start pointer-events-auto"
                 @click="deleteElement(groupIndex, index)">
           <span class="text-md icon icon-delete"></span>
         </button>
-        <div class="w-full absolute bottom-0 text-white pb-2 px-2">
-          <h4 class="m-0 text-sm font-semibold whitespace-nowrap overflow-hidden overflow-ellipsis">
-            {{ item.name }}
-          </h4>
-          <p class="m-0 font-light text-sm whitespace-nowrap overflow-hidden overflow-ellipsis">
-            {{ item.description }}
-          </p>
-        </div>
       </div>
       <div class="thumbnail relative"
            @click="editing(groupIndex, index, true)">
@@ -30,6 +24,15 @@
                class="unreset"
                v-html="item.html"></div>
         </div>
+      </div>
+      <div v-if="item.name || item.description"
+           class="thumbnail-info overflow-hidden w-full pt-1 pb-2 px-2 border-0 border-t border-solid border-slate-200">
+        <h4 class="m-0 text-sm whitespace-nowrap overflow-hidden overflow-ellipsis">
+          {{ item.name }}
+        </h4>
+        <p class="m-0 font-light text-sm whitespace-nowrap overflow-hidden overflow-ellipsis">
+          {{ item.description }}
+        </p>
       </div>
     </div>
   </div>
@@ -118,14 +121,14 @@ watch(() => props.item,
   }
 
   .thumbnail-cover {
-    background: rgba(#1B98E0, .8);
+    background: rgba(#1B98E0, .2);
     width: 150px;
-    height: 150px;
+    height: 100%;
     display: none;
+  }
 
-    &.active {
-      display: flex;
-    }
+  .thumbnail-info {
+    width: 150px;
   }
 }
 </style>

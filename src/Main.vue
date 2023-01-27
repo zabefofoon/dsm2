@@ -2,23 +2,23 @@
   <div class="p-3 pt-0 bg-gray-100 h-fit min-h-screen overflow-hidden">
     <UiStyle>{{ createCss }}</UiStyle>
     <div class="bg-gray-100 py-3 flex gap-2 sticky top-0 left-0 z-10 text-slate-500">
-      <button class="dsm-button shadow-lg h-fit p-2 bg-white rounded-full"
+      <button class="dsm-button border border-solid border-slate-200 shadow-lg h-fit p-2 bg-white rounded-full"
               :class="{active: !isShowAllCodes && listStyle === 'thumbnail'}"
               @click="setListStyle('thumbnail');toggleAllCode(false)">
         <span class="text-lg icon icon-widgets"></span>
       </button>
-      <button class="dsm-button shadow-lg h-fit p-2 bg-white rounded-full"
+      <button class="dsm-button border border-solid border-slate-200 shadow-lg h-fit p-2 bg-white rounded-full"
               :class="{active: !isShowAllCodes && listStyle === 'bullet'}"
               @click="setListStyle('bullet');toggleAllCode(false)">
         <span class="text-lg icon icon-bullet">format_list_bulleted</span>
       </button>
-      <button class="dsm-button shadow-lg h-fit p-2 bg-white rounded-full"
+      <button class="dsm-button border border-solid border-slate-200 shadow-lg h-fit p-2 bg-white rounded-full"
               :class="{active: isShowAllCodes}"
               @click="toggleAllCode(!isShowAllCodes)">
         <span class="text-lg icon icon-code">code</span>
       </button>
       <button v-if="editMode"
-              class="dsm-button shadow-lg h-fit p-2 bg-white rounded-full"
+              class="dsm-button border border-solid border-slate-200 shadow-lg h-fit p-2 bg-white rounded-full"
               @click="postSave">
         <span class="text-lg icon icon-save">save</span>
       </button>
@@ -58,7 +58,8 @@ import AllCodes from "./components/AllCodes.vue"
 import {ActionManager} from "./models/ActionManager"
 import {
   AddAction,
-  AddGroupAction, CopyAction,
+  AddGroupAction,
+  CopyAction,
   DragGroupsMovedAction,
   DragMovedAction,
   DragRemovedAction,
@@ -71,7 +72,7 @@ const listStyle = ref<ListType>('thumbnail')
 const setListStyle = (listType: ListType): void => {
   listStyle.value = listType
 }
-const groups = ref<Group[]>([{name: 'Group2', items: []}, {name: 'Group1', items: []}])
+const groups = ref<Group[]>([])
 let actionManager = new ActionManager(groups.value)
 
 const setGroups = (_groups: Group[]) => {

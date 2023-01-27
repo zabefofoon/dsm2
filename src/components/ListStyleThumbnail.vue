@@ -21,7 +21,7 @@
 
       <div v-if="isGroupHide[groupIndex]"
            class="flex flex-wrap items-center gap-2">
-        <draggable class="w-full mb-1 flex gap-2 items-center flex-wrap"
+        <draggable class="w-full mb-1 flex gap-2 flex-wrap items-start"
                    :list="group.items"
                    v-bind="dragOptions"
                    draggable=".draggable"
