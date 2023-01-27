@@ -1,6 +1,7 @@
 <template>
   <div class="bg-white shadow-md p-4"
        v-click-away="() => close()"
+       tabindex="0"
        @keydown.stop>
     <div class="flex gap-1 mb-4">
       <button v-if="editMode"

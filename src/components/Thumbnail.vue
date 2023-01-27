@@ -1,15 +1,15 @@
 <template>
   <div class="thumbnail-container flex flex-wrap cursor-pointer">
-    <div class="bg-white shadow-md relative overflow-hidden">
-      <div class="thumbnail-cover absolute top-0 left-0 flex items-center z-10 pointer-events-none"
-           :class="{active: isEdit[groupIndex][index], dragging}">
+    <div class="bg-white shadow-md relative overflow-hidden hover:shadow-sm transition-shadow transition-border"
+         :class="isEditing ? ['shadow-sm'] : [dragging]">
+      <div class="thumbnail-cover absolute top-0 left-0 flex items-center z-10 pointer-events-none">
         <button v-if="editMode"
-                class="dsm-button border border-solid border-slate-200 mt-2 ml-1 bg-white p-1 rounded-full self-start pointer-events-auto"
+                class="dsm-button shadow-sm border border-solid border-slate-200 mt-2 ml-1 bg-white p-1 rounded-full self-start pointer-events-auto hover:bg-slate-200"
                 @click="copyElement(groupIndex, index)">
           <span class="text-md icon icon-copy"></span>
         </button>
         <button v-if="editMode"
-                class="dsm-button border border-solid border-slate-200 mt-2 ml-1 bg-white p-1 rounded-full self-start pointer-events-auto"
+                class="dsm-button shadow-sm border border-solid border-slate-200 mt-2 ml-1 bg-white p-1 rounded-full self-start pointer-events-auto hover:bg-slate-200"
                 @click="deleteElement(groupIndex, index)">
           <span class="text-md icon icon-delete"></span>
         </button>
@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import {PropType, ref, watch} from "vue"
+import {computed, PropType, ref, watch} from "vue"
 import {Item} from "../models/Item"
 
 const fitItemToThumbnail = (item: HTMLElement) => {
@@ -79,6 +79,8 @@ const props = defineProps({
   editMode: Boolean
 })
 
+const isEditing = computed(() => props.isEdit[props.groupIndex][props.index])
+
 const emit = defineEmits(['editing', 'delete', 'copy'])
 
 const itemElement = ref<HTMLElement | HTMLElement[]>()
@@ -91,7 +93,7 @@ const deleteElement = (groupIndex: number,
                        index: number) => emit('delete', groupIndex, index)
 
 const copyElement = (groupIndex: number,
-                       index: number) => emit('copy', groupIndex, index)
+                     index: number) => emit('copy', groupIndex, index)
 
 watch(() => props.item,
     () => setTimeout(() => {
@@ -119,7 +121,6 @@ watch(() => props.item,
   }
 
   .thumbnail-cover {
-    background: rgba(#1B98E0, .2);
     width: 150px;
     height: 100%;
     display: none;
