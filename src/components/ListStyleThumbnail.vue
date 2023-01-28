@@ -3,6 +3,7 @@
              :list="groups"
              :group="{put: false}"
              :disabled="disableDrag"
+             filter=".ignore-elements"
              @change="onGroupsChange">
     <div v-for="(group, groupIndex) in groups"
          :key="groupIndex"
@@ -74,6 +75,7 @@ import AddMarkupButton from "./AddMarkupButton.vue"
 import RowEditor from "./RowEditor.vue"
 import {VueDraggableNext as Draggable} from "vue-draggable-next"
 import Thumbnail from "./Thumbnail.vue"
+import util from "../util/util"
 
 const props = defineProps({
   groups: Array as PropType<Group[]>,
@@ -109,9 +111,9 @@ const toggleGroupHide = (groupIndex: number) => {
   isGroupHide.value[groupIndex] = !isGroupHide.value[groupIndex]
 }
 
-const disableDrag = ref(false)
+const disableDrag = ref<boolean>(util.isTouchDevice)
 const setDisableDrag = (value: boolean) => {
-  disableDrag.value = value
+  disableDrag.value = util.isTouchDevice ? true : value
 }
 
 watch(() => [props.groups?.length, props.groups?.map((group) => group.items)?.flat().length],
