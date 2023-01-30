@@ -38,25 +38,29 @@
     <div class="flex gap-1">
       <div class="flex-1 overflow-auto shadow-md p-4">
         <h4 class="mb-2">html</h4>
-        <codemirror v-model="item.html"
-                    placeholder="Html goes here..."
-                    :style="{ height: 'fit-content',
+        <div class="max-h-96">
+          <codemirror v-model="item.html"
+                      placeholder="Html goes here..."
+                      :style="{ height: 'fit-content',
                      fontSize: '.9rem' }"
-                    :tab-size="4"
-                    :extensions="[html()]"
-                    @focusin="$emit('edit-start')"
-                    @focusout="$emit('edit-end')"/>
+                      :tab-size="4"
+                      :extensions="[html()]"
+                      @focusin="$emit('edit-start')"
+                      @focusout="$emit('edit-end')"/>
+        </div>
       </div>
       <div class="flex-1 overflow-auto shadow-md p-4">
         <h4 class="mb-2">css</h4>
-        <codemirror v-model="item.css"
-                    placeholder="Css goes here..."
-                    :style="{ height: 'fit-content',
+        <div class="max-h-96">
+          <codemirror v-model="item.css"
+                      placeholder="Css goes here..."
+                      :style="{ height: 'fit-content',
                      fontSize: '.9rem' }"
-                    :tab-size="4"
-                    :extensions="[css()]"
-                    @focusin="$emit('edit-start')"
-                    @focusout="$emit('edit-end')"/>
+                      :tab-size="4"
+                      :extensions="[css()]"
+                      @focusin="$emit('edit-start')"
+                      @focusout="$emit('edit-end')"/>
+        </div>
       </div>
       <div class="dsm flex-2 overflow-auto shadow-md p-4">
         <h4 class="mb-2">preview</h4>
