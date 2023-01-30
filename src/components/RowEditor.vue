@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white shadow-md p-4"
-       v-click-away="() => !isTouchDevice && close()"
+       v-click-away="() => !touchable && close()"
        tabindex="0"
        @keydown.stop>
     <div class="flex gap-1 mb-4">
@@ -74,9 +74,8 @@ import {Item} from "../models/Item"
 import {Codemirror} from 'vue-codemirror'
 import {html} from "@codemirror/lang-html"
 import {css} from "@codemirror/lang-css"
-import {PropType} from "vue"
+import {inject, PropType, Ref} from "vue"
 import {directive as vClickAway} from "vue3-click-away"
-import util from "../util/util"
 
 defineProps({
   item: {
@@ -90,7 +89,7 @@ const emit = defineEmits(['delete', 'close', 'copy', 'edit-start', 'edit-end'])
 const deleteElement = (): void => emit('delete')
 const copyElement = (): void => emit('copy')
 const close = (): void => emit('close')
-const isTouchDevice = util.isTouchDevice
+const touchable = inject<Ref<boolean>>('touchable')
 </script>
 
 <style scoped lang="scss">

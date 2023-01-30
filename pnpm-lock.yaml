@@ -13,6 +13,7 @@ specifiers:
   vue: ^3.2.45
   vue-codemirror: ^6.1.1
   vue-draggable-next: ^2.1.1
+  vue-final-modal: ^3.4.11
   vue-tsc: ^1.0.11
   vue3-click-away: ^1.2.4
 
@@ -22,6 +23,7 @@ dependencies:
   vue: 3.2.45
   vue-codemirror: 6.1.1_vhikcdkubtgbuxk47tdob2ofvi
   vue-draggable-next: 2.1.1_vyu2vwb5kgntc5eommqv3uyn34
+  vue-final-modal: 3.4.11
   vue3-click-away: 1.2.4
 
 devDependencies:
@@ -1198,6 +1200,10 @@ packages:
     dependencies:
       sortablejs: 1.15.0
       vue: 3.2.45
+    dev: false
+
+  /vue-final-modal/3.4.11:
+    resolution: {integrity: sha512-tKBM4hcUo16rUGa/UaYMlut11cRfxMZnahz9u+mAoSk8mQNdnm9FHzOeHIcUxNHvMC/YyVBlOHi+2GqOVO8zig==}
     dev: false
 
   /vue-template-compiler/2.7.14:

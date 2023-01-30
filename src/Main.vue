@@ -7,20 +7,21 @@
               @click="setListStyle('thumbnail');toggleAllCode(false)">
         <span class="text-lg icon icon-widgets"></span>
       </button>
-      <button class="dsm-button border border-solid border-slate-200 shadow-lg h-fit p-2 bg-white rounded-full"
-              :class="{active: !isShowAllCodes && listStyle === 'bullet'}"
-              @click="setListStyle('bullet');toggleAllCode(false)">
-        <span class="text-lg icon icon-bullet">format_list_bulleted</span>
+      <button
+          class="hidden md:inline-block dsm-button border border-solid border-slate-200 shadow-lg h-fit p-2 bg-white rounded-full"
+          :class="{active: !isShowAllCodes && listStyle === 'bullet'}"
+          @click="setListStyle('bullet');toggleAllCode(false)">
+        <span class="text-lg icon icon-bullet"></span>
       </button>
       <button class="dsm-button border border-solid border-slate-200 shadow-lg h-fit p-2 bg-white rounded-full"
               :class="{active: isShowAllCodes}"
               @click="toggleAllCode(!isShowAllCodes)">
-        <span class="text-lg icon icon-code">code</span>
+        <span class="text-lg icon icon-code"></span>
       </button>
       <button v-if="editMode"
               class="dsm-button border border-solid border-slate-200 shadow-lg h-fit p-2 bg-white rounded-full"
               @click="postSave">
-        <span class="text-lg icon icon-save">save</span>
+        <span class="text-lg icon icon-save"></span>
       </button>
     </div>
     <AllCodes v-if="isShowAllCodes"
@@ -46,16 +47,19 @@
                           @copy="copyElement"/>
     </template>
   </div>
+  <ModalsContainer/>
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from "vue"
+import {computed, provide, ref} from "vue"
 import UiStyle from "./components/UiStyle.vue"
 import {Group, ItemDragEvent} from "./models/Item"
 import ListStyleBullet from "./components/ListStyleBullet.vue"
 import ListStyleThumbnail from "./components/ListStyleThumbnail.vue"
 import AllCodes from "./components/AllCodes.vue"
 import {ActionManager} from "./models/ActionManager"
+import {ModalsContainer} from "vue-final-modal"
+
 import {
   AddAction,
   AddGroupAction,
@@ -147,6 +151,16 @@ const onMessage = () => (event: MessageEvent) => {
 
 window.addEventListener('message', onMessage())
 
+const checkTouchable = () => ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
+const touchable = ref(checkTouchable())
+const screen = ref(document.body.clientWidth > 768 ? 'md' : 'sm')
+window.addEventListener('resize', () => {
+  touchable.value = checkTouchable()
+  screen.value = document.body.clientWidth > 768 ? 'md' : 'sm'
+})
+
+provide('touchable', touchable)
+provide('screen', screen)
 </script>
 
 <style scoped lang="scss">

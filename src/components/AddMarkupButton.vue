@@ -24,8 +24,11 @@ const addElement = () => emit('add')
 .add-button {
 
   &.thumbnail {
-    width: 150px;
-    height: 150px;
+    aspect-ratio: 1;
+    width: 100%;
+    @media (min-width: 768px) {
+      width: 150px;
+    }
   }
 
   &:hover {

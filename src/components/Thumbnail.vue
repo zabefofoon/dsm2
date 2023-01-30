@@ -1,6 +1,7 @@
 <template>
-  <div class="thumbnail-container flex flex-wrap cursor-pointer">
-    <div class="bg-white shadow-md relative overflow-hidden hover:shadow-sm transition-shadow transition-border"
+  <div class="w-full md:w-fit thumbnail-container flex flex-wrap cursor-pointer">
+    <div class="w-full md:w-fit bg-white shadow-md relative overflow-hidden hover:shadow-sm
+        transition-shadow transition-border"
          :class="isEditing ? ['shadow-sm'] : [dragging]">
       <div class="thumbnail-cover absolute top-0 left-0 flex items-center z-10 pointer-events-none">
         <button v-if="editMode"
@@ -116,18 +117,25 @@ watch(() => props.item,
   }
 
   .thumbnail {
-    width: 150px;
-    height: 150px;
+
+    aspect-ratio: 1;
+    @media (min-width: 768px) {
+      width: 150px;
+    }
   }
 
   .thumbnail-cover {
-    width: 150px;
     height: 100%;
     display: none;
+    @media (min-width: 768px) {
+      width: 150px;
+    }
   }
 
   .thumbnail-info {
-    width: 150px;
+    @media (min-width: 768px) {
+      width: 150px;
+    }
   }
 }
 </style>
