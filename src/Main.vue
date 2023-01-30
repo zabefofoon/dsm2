@@ -58,7 +58,6 @@ import ListStyleBullet from "./components/ListStyleBullet.vue"
 import ListStyleThumbnail from "./components/ListStyleThumbnail.vue"
 import AllCodes from "./components/AllCodes.vue"
 import {ActionManager} from "./models/ActionManager"
-import {ModalsContainer} from "vue-final-modal"
 
 import {
   AddAction,
