@@ -68,6 +68,7 @@ import {
   DragRemovedAction,
   RemoveAction
 } from "./models/BasicActions"
+import util from "./util/util"
 
 type ListType = 'thumbnail' | 'bullet'
 
@@ -79,7 +80,13 @@ const groups = ref<Group[]>([])
 let actionManager = new ActionManager(groups.value)
 
 const setGroups = (_groups: Group[]) => {
-  groups.value = _groups
+  groups.value = _groups.map((group) => {
+    group.items = group.items.map((item) => {
+      if (!item.id) item.id = util.generateUniqueId()
+      return item
+    })
+    return group
+  })
   actionManager = new ActionManager(groups.value)
 }
 window.addEventListener('keydown', ($event: KeyboardEvent) => {
