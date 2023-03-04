@@ -1,5 +1,6 @@
 import {Action} from "./ActionManager"
 import {Group, Item} from "./Item"
+import util from "../util/util"
 
 export class CopyAction implements Action {
   readonly actionName = 'Copy'
@@ -11,6 +12,7 @@ export class CopyAction implements Action {
 
   do(groups: Group[]): void {
     const copied = JSON.parse(JSON.stringify(groups[this.groupIndex].items[this.rowIndex]))
+    copied.id = util.generateUniqueId()
     groups[this.groupIndex].items.splice(this.rowIndex, 0, copied)
   }
 
