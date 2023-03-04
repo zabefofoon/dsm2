@@ -11,8 +11,9 @@ export class CopyAction implements Action {
   }
 
   do(groups: Group[]): void {
-    const copied = JSON.parse(JSON.stringify(groups[this.groupIndex].items[this.rowIndex]))
+    const copied = <Item>JSON.parse(JSON.stringify(groups[this.groupIndex].items[this.rowIndex]))
     copied.id = util.generateUniqueId()
+    copied.name = `[Copy]${copied.name}`
     groups[this.groupIndex].items.splice(this.rowIndex, 0, copied)
   }
 
