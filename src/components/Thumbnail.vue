@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, PropType, ref, watch} from "vue"
+import {computed, onMounted, PropType, ref, watch} from "vue"
 import {Item} from "../models/Item"
 
 const fitItemToThumbnail = (item: HTMLElement) => {
@@ -96,13 +96,17 @@ const deleteElement = (groupIndex: number,
 const copyElement = (groupIndex: number,
                      index: number) => emit('copy', groupIndex, index)
 
+const fit = () => {
+  if (itemElement.value) Array.isArray(itemElement.value)
+      ? Array.from(itemElement.value).forEach((item) => item.style.transform = fitItemToThumbnail(item))
+      : itemElement.value.style.transform = fitItemToThumbnail(itemElement.value)
+}
+
+onMounted(() => setTimeout(fit, 1000))
+
 watch(() => props.item,
-    () => setTimeout(() => {
-      if (itemElement.value)
-        Array.isArray(itemElement.value)
-            ? Array.from(itemElement.value).forEach((item) => item.style.transform = fitItemToThumbnail(item))
-            : itemElement.value.style.transform = fitItemToThumbnail(itemElement.value)
-    }), {immediate: true, deep: true})
+    () => setTimeout(fit),
+    {immediate: true, deep: true})
 </script>
 
 <style scoped lang="scss">
