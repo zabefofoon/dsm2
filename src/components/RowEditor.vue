@@ -24,13 +24,15 @@
       <input class="w-full p-2 mb-2 border border-0 border-b border-slate-300"
              type="text"
              placeholder="name"
-             v-model="item.name"
+             :value="item.name"
+             @change="changeItem('name', $event.target.value)"
              :readonly="!editMode"
              @focusin="$emit('edit-start')"
              @focusout="$emit('edit-end')"/>
       <input class="w-full p-2 border border-0 border-b border-slate-300"
              placeholder="description"
-             v-model="item.description"
+             :value="item.description"
+             @change="changeItem('description', $event.target.value)"
              :readonly="!editMode"
              @focusin="$emit('edit-start')"
              @focusout="$emit('edit-end')"/>
@@ -39,10 +41,10 @@
       <div class="flex-1 overflow-auto shadow-md p-4">
         <h4 class="mb-2">html</h4>
         <div class="max-h-96">
-          <codemirror v-model="item.html"
+          <codemirror :model-value="item.html"
+                      @change="changeItem('html', $event)"
                       placeholder="Html goes here..."
-                      :style="{ height: 'fit-content',
-                     fontSize: '.9rem' }"
+                      :style="{ height: 'fit-content', fontSize: '.9rem' }"
                       :tab-size="4"
                       :extensions="[html()]"
                       @focusin="$emit('edit-start')"
@@ -52,10 +54,10 @@
       <div class="flex-1 overflow-auto shadow-md p-4">
         <h4 class="mb-2">css</h4>
         <div class="max-h-96">
-          <codemirror v-model="item.css"
+          <codemirror :model-value="item.css"
+                      @change="changeItem('css', $event)"
                       placeholder="Css goes here..."
-                      :style="{ height: 'fit-content',
-                     fontSize: '.9rem' }"
+                      :style="{ height: 'fit-content', fontSize: '.9rem' }"
                       :tab-size="4"
                       :extensions="[css()]"
                       @focusin="$emit('edit-start')"
@@ -80,8 +82,9 @@ import {html} from "@codemirror/lang-html"
 import {css} from "@codemirror/lang-css"
 import {inject, PropType, Ref} from "vue"
 import {directive as vClickAway} from "vue3-click-away"
+import {NonFunctionPropertyNames} from "../util/util"
 
-defineProps({
+const props = defineProps({
   item: {
     type: Object as PropType<Item>,
     required: true
@@ -89,10 +92,14 @@ defineProps({
   showCloseButton: Boolean,
   editMode: Boolean
 })
-const emit = defineEmits(['delete', 'close', 'copy', 'edit-start', 'edit-end'])
+const emit = defineEmits(['delete', 'close', 'copy', 'edit-start', 'edit-end', 'change'])
 const deleteElement = (): void => emit('delete')
 const copyElement = (): void => emit('copy')
 const close = (): void => emit('close')
+
+const changeItem = (field: NonFunctionPropertyNames<Item>,
+                    value: string) => emit('change', props.item.id, field, value)
+
 const touchable = inject<Ref<boolean>>('touchable')
 </script>
 

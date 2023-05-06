@@ -52,4 +52,10 @@ export class ActionManager {
   private emptyUndoneActions(): void {
     this.undoneActions.splice(0, this.undoneActions.length)
   }
+
+  setGroups(groups: Group[]): this {
+    this.groups = groups
+    return this
+  }
+
 }

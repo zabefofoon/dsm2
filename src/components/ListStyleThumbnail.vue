@@ -16,8 +16,9 @@
         </button>
         <input class="bg-transparent px-1 text-lg border border-0 border-b border-slate-400"
                placeholder="group name"
-               v-model="group.name"
-               :readonly="!editMode">
+               :readonly="!editMode"
+               :value="group.name"
+               @change="emit('change-group', groupIndex, $event.target.value)">
       </div>
 
       <div v-if="isGroupHide[groupIndex]"
@@ -51,7 +52,8 @@
                          @delete="deleteElement(groupIndex, isEdit[groupIndex].findIndex((item) => item))"
                          @copy="copyElement(groupIndex, isEdit[groupIndex].findIndex((item) => item))"
                          @edit-start="setDisableDrag(true)"
-                         @edit-end="setDisableDrag(false)"/>
+                         @edit-end="setDisableDrag(false)"
+                         @change="(id, field, value) => emit('change-item', id, field, value)"/>
             </div>
           </template>
           <AddMarkupButton v-if="editMode"
@@ -85,7 +87,7 @@ const props = defineProps({
   editMode: Boolean
 })
 
-const emit = defineEmits(['delete', 'add', 'add-group', 'drag', 'drag-groups', 'copy'])
+const emit = defineEmits(['delete', 'add', 'add-group', 'drag', 'drag-groups', 'copy', 'change-item', 'change-group'])
 
 const dragOptions = {
   animation: 200,

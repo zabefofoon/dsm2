@@ -15,6 +15,26 @@ export class Item {
   constructor() {
     this.id = util.generateUniqueId()
   }
+
+  setName(value: string): this {
+    this.name = value
+    return this
+  }
+
+  setDescription(value: string): this {
+    this.description = value
+    return this
+  }
+
+  setHtml(value: string): this {
+    this.html = value
+    return this
+  }
+
+  setCss(value: string): this {
+    this.css = value
+    return this
+  }
 }
 
 export type ItemDragEvent = {

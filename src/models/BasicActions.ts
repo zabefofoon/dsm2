@@ -1,6 +1,6 @@
 import {Action} from "./ActionManager"
 import {Group, Item} from "./Item"
-import util from "../util/util"
+import util, {NonFunctionPropertyNames} from "../util/util"
 
 export class CopyAction implements Action {
   readonly actionName = 'Copy'
@@ -194,5 +194,71 @@ export class DragGroupsMovedAction implements Action {
   static of(newIndex = 0,
             oldIndex = 0): DragGroupsMovedAction {
     return new DragGroupsMovedAction(newIndex, oldIndex)
+  }
+}
+
+export class ChangeGroupName implements Action {
+  readonly actionName = 'ChangeGroupName'
+  private oldName = ''
+
+  constructor(private groupIndex: number,
+              private value: string) {
+  }
+
+  do(groups: Group[]): void {
+    this.oldName = groups[this.groupIndex].name
+    groups[this.groupIndex].name = this.value
+  }
+
+  undo(groups: Group[]): void {
+    groups[this.groupIndex].name = this.oldName
+  }
+
+  redo(groups: Group[]): void {
+    this.do(groups)
+  }
+
+  static of(groupIndex: number, value: string): ChangeGroupName {
+    return new ChangeGroupName(groupIndex, value)
+  }
+}
+
+export class ChangeItem implements Action {
+  readonly actionName = 'ChangeItem'
+
+  oldValue = ''
+
+  constructor(private readonly id: string,
+              private readonly field: NonFunctionPropertyNames<Item>,
+              private readonly value: string) {
+  }
+
+  do(groups: Group[]): void {
+    const found = groups
+        .flatMap((group) => group.items)
+        .find((item) => item.id === this.id)
+    if (found) {
+      this.oldValue = found[this.field] || ''
+      found[this.field] = this.value
+    }
+  }
+
+  undo(groups: Group[]): void {
+    const found = groups
+        .flatMap((group) => group.items)
+        .find((item) => item.id === this.id)
+
+    if (found) {
+      found[this.field] = this.oldValue
+      this.oldValue = this.value
+    }
+  }
+
+  redo(groups: Group[]): void {
+    this.do(groups)
+  }
+
+  static of(id: string, field: NonFunctionPropertyNames<Item>, value: string): ChangeItem {
+    return new ChangeItem(id, field, value)
   }
 }

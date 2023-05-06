@@ -35,7 +35,9 @@
                        @add="addElement"
                        @add-group="addGroup"
                        @drag-groups="onDragGroups"
-                       @copy="copyElement"/>
+                       @copy="copyElement"
+                       @change-group="onChangeGroup"
+                       @change-item="onChangeItem"/>
       <ListStyleThumbnail v-else
                           :groups="groups"
                           :edit-mode="editMode"
@@ -44,7 +46,9 @@
                           @add-group="addGroup"
                           @drag="onDrag"
                           @drag-groups="onDragGroups"
-                          @copy="copyElement"/>
+                          @copy="copyElement"
+                          @change-group="onChangeGroup"
+                          @change-item="onChangeItem"/>
     </template>
   </div>
   <ModalsContainer/>
@@ -53,7 +57,7 @@
 <script setup lang="ts">
 import {computed, provide, ref} from "vue"
 import UiStyle from "./components/UiStyle.vue"
-import {Group, ItemDragEvent} from "./models/Item"
+import {Group, Item, ItemDragEvent} from "./models/Item"
 import ListStyleBullet from "./components/ListStyleBullet.vue"
 import ListStyleThumbnail from "./components/ListStyleThumbnail.vue"
 import AllCodes from "./components/AllCodes.vue"
@@ -62,13 +66,14 @@ import {ActionManager} from "./models/ActionManager"
 import {
   AddAction,
   AddGroupAction,
+  ChangeGroupName, ChangeItem,
   CopyAction,
   DragGroupsMovedAction,
   DragMovedAction,
   DragRemovedAction,
   RemoveAction
 } from "./models/BasicActions"
-import util from "./util/util"
+import util, {NonFunctionPropertyNames} from "./util/util"
 
 type ListType = 'thumbnail' | 'bullet'
 
@@ -77,7 +82,7 @@ const setListStyle = (listType: ListType): void => {
   listStyle.value = listType
 }
 const groups = ref<Group[]>([])
-let actionManager = new ActionManager(groups.value)
+const actionManager = ref(new ActionManager(groups.value))
 
 const setGroups = (_groups: Group[]) => {
   groups.value = _groups.map((group) => {
@@ -87,23 +92,36 @@ const setGroups = (_groups: Group[]) => {
     })
     return group
   })
-  actionManager = new ActionManager(groups.value)
+  actionManager.value.setGroups(groups.value)
 }
 window.addEventListener('keydown', ($event: KeyboardEvent) => {
   if ($event.key.toLowerCase() === 'z'
-      && ($event.ctrlKey || $event.metaKey))
+      && ($event.ctrlKey || $event.metaKey)) {
+    $event.preventDefault()
     $event.shiftKey
-        ? actionManager.executeRedo()
-        : actionManager.executeUndo()
+        ? actionManager.value.executeRedo()
+        : actionManager.value.executeUndo()
+    postEditRealtime()
+  }
 })
 
 const addGroup = () => {
-  actionManager.execute(AddGroupAction.of())
+  actionManager.value.execute(AddGroupAction.of())
+  postEditRealtime()
 }
 
-const addElement = (groupIndex: number) => actionManager.execute(AddAction.of(groupIndex))
-const deleteElement = (groupIndex: number, rowIndex: number) => actionManager.execute(RemoveAction.of(groupIndex, rowIndex))
-const copyElement = (groupIndex: number, rowIndex: number) => actionManager.execute(CopyAction.of(groupIndex, rowIndex))
+const addElement = (groupIndex: number) => {
+  actionManager.value.execute(AddAction.of(groupIndex))
+  postEditRealtime()
+}
+const deleteElement = (groupIndex: number, rowIndex: number) => {
+  actionManager.value.execute(RemoveAction.of(groupIndex, rowIndex))
+  postEditRealtime()
+}
+const copyElement = (groupIndex: number, rowIndex: number) => {
+  actionManager.value.execute(CopyAction.of(groupIndex, rowIndex))
+  postEditRealtime()
+}
 
 const isShowAllCodes = ref(false)
 const toggleAllCode = (value: boolean) => {
@@ -118,7 +136,7 @@ const dragData = {
 
 const onDrag = (groupIndex: number, event: ItemDragEvent) => {
   if (event.moved) {
-    actionManager.execute(DragMovedAction.of(groupIndex, Number(event.moved.newIndex), Number(event.moved.oldIndex)))
+    actionManager.value.execute(DragMovedAction.of(groupIndex, Number(event.moved.newIndex), Number(event.moved.oldIndex)))
   } else if (event.added) {
     dragData.toGroupIndex = groupIndex
     dragData.toItemIndex = Number(event.added?.newIndex)
@@ -126,14 +144,16 @@ const onDrag = (groupIndex: number, event: ItemDragEvent) => {
     dragData.fromGroupIndex = groupIndex
     dragData.fromItemIndex = Number(event.removed.oldIndex)
 
-    actionManager.execute(DragRemovedAction.of(JSON.parse(JSON.stringify(dragData))))
+    actionManager.value.execute(DragRemovedAction.of(JSON.parse(JSON.stringify(dragData))))
+    postEditRealtime()
   }
 }
 
 const onDragGroups = (event: ItemDragEvent) => {
   if (event.moved) {
     const {newIndex, oldIndex} = event.moved
-    actionManager.execute(DragGroupsMovedAction.of(newIndex, oldIndex))
+    actionManager.value.execute(DragGroupsMovedAction.of(newIndex, oldIndex))
+    postEditRealtime()
   }
 }
 
@@ -152,7 +172,11 @@ const postSave = () => window.parent.postMessage({
 }, '*')
 
 const onMessage = () => (event: MessageEvent) => {
+  console.log(event.data)
   if (event.data.type === 'loadGroups') setGroups(event.data.groups)
+  if (event.data.type === 'realtimeSetGroups') {
+    setGroups(event.data.groups)
+  }
 }
 
 window.addEventListener('message', onMessage())
@@ -167,6 +191,24 @@ window.addEventListener('resize', () => {
 
 provide('touchable', touchable)
 provide('screen', screen)
+
+const postEditRealtime = () => window.parent.postMessage({
+  type: 'editRealtime',
+  groups: JSON.stringify(groups.value)
+}, '*')
+
+const onChangeGroup = (groupIndex: number,
+                       value: string) => {
+  actionManager.value.execute(ChangeGroupName.of(groupIndex, value))
+  postEditRealtime()
+}
+
+const onChangeItem = (id: string,
+                      field: NonFunctionPropertyNames<Item>,
+                      value: string) => {
+  actionManager.value.execute(ChangeItem.of(id, field, value))
+  postEditRealtime()
+}
 </script>
 
 <style scoped lang="scss">
