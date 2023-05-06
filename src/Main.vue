@@ -172,7 +172,6 @@ const postSave = () => window.parent.postMessage({
 }, '*')
 
 const onMessage = () => (event: MessageEvent) => {
-  console.log(event.data)
   if (event.data.type === 'loadGroups') setGroups(event.data.groups)
   if (event.data.type === 'realtimeSetGroups') {
     setGroups(event.data.groups)
