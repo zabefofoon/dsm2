@@ -60,7 +60,7 @@ const props = defineProps({
   groups: Array as PropType<Group[]>,
   editMode: Boolean
 })
-const emit = defineEmits(['delete', 'add', 'add-group', 'drag', 'drag-groups', 'copy', 'change-group'])
+const emit = defineEmits(['delete', 'add', 'add-group', 'drag', 'drag-groups', 'copy', 'change-group', 'change-item'])
 
 const dragOptions = {
   animation: 200,
@@ -89,7 +89,7 @@ const setDisableDrag = (value: boolean) => {
   disableDrag.value = value
 }
 
-const changeGroup = (groupIndex: number, $event: InputEvent) => {
+const changeGroup = (groupIndex: number, $event: Event) => {
   const value = (<HTMLInputElement>$event.target).value
   emit('change-group', groupIndex, value)
 }

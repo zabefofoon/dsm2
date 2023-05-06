@@ -18,7 +18,7 @@
                placeholder="group name"
                :readonly="!editMode"
                :value="group.name"
-               @change="emit('change-group', groupIndex, $event.target.value)">
+               @change="changeGroup(groupIndex, $event)">
       </div>
 
       <div v-if="isGroupHide[groupIndex]"
@@ -182,6 +182,11 @@ watch(() => [props.groups?.length, props.groups?.map((group) => group.items)?.fl
             return acc
           }, []) || []
     }, {immediate: true})
+
+const changeGroup = (groupIndex: number, $event: Event) => {
+  const value = (<HTMLInputElement>$event.target).value
+  emit('change-group', groupIndex, value)
+}
 
 </script>
 

@@ -25,14 +25,14 @@
              type="text"
              placeholder="name"
              :value="item.name"
-             @change="changeItem('name', $event.target.value)"
+             @change="changeItem('name', $event)"
              :readonly="!editMode"
              @focusin="$emit('edit-start')"
              @focusout="$emit('edit-end')"/>
       <input class="w-full p-2 border border-0 border-b border-slate-300"
              placeholder="description"
              :value="item.description"
-             @change="changeItem('description', $event.target.value)"
+             @change="changeItem('description', $event)"
              :readonly="!editMode"
              @focusin="$emit('edit-start')"
              @focusout="$emit('edit-end')"/>
@@ -98,7 +98,13 @@ const copyElement = (): void => emit('copy')
 const close = (): void => emit('close')
 
 const changeItem = (field: NonFunctionPropertyNames<Item>,
-                    value: string) => emit('change', props.item.id, field, value)
+                    $event: Event | string) => {
+  const value = typeof $event === 'string'
+      ? $event
+      : (<HTMLInputElement>$event.target).value
+
+  emit('change', props.item.id, field, value)
+}
 
 const touchable = inject<Ref<boolean>>('touchable')
 </script>
