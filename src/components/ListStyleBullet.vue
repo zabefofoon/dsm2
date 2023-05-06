@@ -16,7 +16,7 @@
                placeholder="group name"
                :readonly="!editMode"
                :value="group.name"
-               @change="emit('change-group', groupIndex, $event.target.value)">
+               @change="changeGroup(groupIndex, $event)">
       </div>
       <template v-if="isGroupHide[groupIndex]">
         <draggable v-bind="dragOptions"
@@ -60,7 +60,7 @@ const props = defineProps({
   groups: Array as PropType<Group[]>,
   editMode: Boolean
 })
-const emit = defineEmits(['delete', 'add', 'add-group', 'drag', 'drag-groups', 'copy'])
+const emit = defineEmits(['delete', 'add', 'add-group', 'drag', 'drag-groups', 'copy', 'change-group'])
 
 const dragOptions = {
   animation: 200,
@@ -87,6 +87,11 @@ const toggleGroupHide = (groupIndex: number) => {
 const disableDrag = ref(false)
 const setDisableDrag = (value: boolean) => {
   disableDrag.value = value
+}
+
+const changeGroup = (groupIndex: number, $event: InputEvent) => {
+  const value = (<HTMLInputElement>$event.target).value
+  emit('change-group', groupIndex, value)
 }
 
 watch(() => [props.groups?.length],
