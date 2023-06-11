@@ -1,27 +1,27 @@
 <template>
-  <div class="p-3 pt-0 bg-gray-100 h-fit min-h-screen overflow-hidden">
+  <div class="tw-p-3 tw-pt-0 tw-bg-gray-100 tw-h-fit tw-min-h-screen tw-overflow-hidden">
     <UiStyle>{{ createCss }}</UiStyle>
-    <div class="bg-gray-100 py-3 flex gap-2 sticky top-0 left-0 z-10 text-slate-500">
-      <button class="dsm-button border border-solid border-slate-200 shadow-lg h-fit p-2 bg-white rounded-full"
+    <div class="tw-bg-gray-100 tw-py-3 tw-flex tw-gap-2 tw-sticky tw-top-0 tw-left-0 tw-z-10 tw-text-slate-500">
+      <button class="tw-border tw-border-solid tw-border-slate-200 tw-shadow-lg tw-h-fit tw-p-2 tw-bg-white tw-rounded-full"
               :class="{active: !isShowAllCodes && listStyle === 'thumbnail'}"
               @click="setListStyle('thumbnail');toggleAllCode(false)">
-        <span class="text-lg icon icon-widgets"></span>
+        <span class="tw-text-lg dsm-icon dsm-icon-widgets"></span>
       </button>
       <button
-          class="hidden md:inline-block dsm-button border border-solid border-slate-200 shadow-lg h-fit p-2 bg-white rounded-full"
+          class="tw-hidden md:tw-inline-block tw-border tw-border-solid tw-border-slate-200 tw-shadow-lg tw-h-fit tw-p-2 tw-bg-white tw-rounded-full"
           :class="{active: !isShowAllCodes && listStyle === 'bullet'}"
           @click="setListStyle('bullet');toggleAllCode(false)">
-        <span class="text-lg icon icon-bullet"></span>
+        <span class="tw-text-lg dsm-icon dsm-icon-bullet"></span>
       </button>
-      <button class="dsm-button border border-solid border-slate-200 shadow-lg h-fit p-2 bg-white rounded-full"
+      <button class="tw-border tw-border-solid tw-border-slate-200 tw-shadow-lg tw-h-fit tw-p-2 tw-bg-white tw-rounded-full"
               :class="{active: isShowAllCodes}"
               @click="toggleAllCode(!isShowAllCodes)">
-        <span class="text-lg icon icon-code"></span>
+        <span class="tw-text-lg dsm-icon dsm-icon-code"></span>
       </button>
       <button v-if="editMode"
-              class="dsm-button border border-solid border-slate-200 shadow-lg h-fit p-2 bg-white rounded-full"
+              class="tw-border tw-border-solid tw-border-slate-200 tw-shadow-lg tw-h-fit tw-p-2 tw-bg-white tw-rounded-full"
               @click="postSave">
-        <span class="text-lg icon icon-save"></span>
+        <span class="tw-text-lg dsm-icon dsm-icon-save"></span>
       </button>
     </div>
     <AllCodes v-if="isShowAllCodes"

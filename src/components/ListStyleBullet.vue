@@ -1,18 +1,17 @@
 <template>
   <draggable v-bind="dragOptions"
-             :list="groups"
+             :list="groups || []"
              :group="{put: false}"
              :disabled="disableDrag"
              @change="onGroupsChange">
     <div v-for="(group, groupIndex) in groups"
-         class="mb-2">
-      <div class="flex items-center mb-2">
-        <button class="dsm-button"
-                @click="toggleGroupHide(groupIndex)">
-          <span v-if="isGroupHide[groupIndex]" class="text-xl icon icon-arrow-top"></span>
-          <span v-else class="text-xl icon icon-arrow-bottom"></span>
+         class="tw-mb-2">
+      <div class="tw-flex tw-items-center tw-mb-2">
+        <button @click="toggleGroupHide(groupIndex)">
+          <span v-if="isGroupHide[groupIndex]" class="tw-text-xl dsm-icon dsm-icon-arrow-top"></span>
+          <span v-else class="tw-text-xl dsm-icon dsm-icon-arrow-bottom"></span>
         </button>
-        <input class="bg-transparent px-1 text-lg border border-0 border-b border-slate-400"
+        <input class="tw-bg-transparent tw-px-1 tw-text-lg tw-border tw-border-0 tw-border-b tw-border-slate-400"
                placeholder="group name"
                :readonly="!editMode"
                :value="group.name"
@@ -27,7 +26,7 @@
                      :key="index"
                      :item="item"
                      :edit-mode="editMode"
-                     class="mb-4"
+                     class="tw-mb-4"
                      @delete="deleteElement(groupIndex, index)"
                      @copy="copyElement(groupIndex, index)"
                      @edit-start="setDisableDrag(true)"
@@ -35,7 +34,7 @@
                      @change="(id, field, value) => emit('change-item', id, field, value)"/>
         </draggable>
         <AddMarkupButton v-if="editMode"
-                         class="p-2 w-full"
+                         class="tw-p-2 tw-w-full"
                          caption="Add"
                          @add="addElement(groupIndex)"/>
       </template>
@@ -44,7 +43,7 @@
   </draggable>
 
   <AddMarkupButton v-if="editMode"
-                   class="w-full p-2 group"
+                   class="group tw-w-full tw-p-2"
                    caption="Group"
                    @add="addGroup"/>
 </template>

@@ -1,35 +1,34 @@
 <template>
-  <div class="w-full md:w-fit thumbnail-container flex flex-wrap cursor-pointer">
-    <div class="w-full md:w-fit bg-white shadow-md relative overflow-hidden hover:shadow-sm
-        transition-shadow transition-border"
+  <div class="tw-w-full md:tw-w-fit thumbnail-container tw-flex tw-flex-wrap tw-cursor-pointer">
+    <div class="tw-w-full md:tw-w-fit tw-bg-white tw-shadow-md tw-relative tw-overflow-hidden hover:tw-shadow-sm
+        tw-transition-shadow tw-transition-border"
          :class="isEditing ? ['shadow-sm'] : [dragging]">
-      <div class="thumbnail-cover absolute top-0 left-0 flex items-center z-10 pointer-events-none">
+      <div class="thumbnail-cover | tw-absolute tw-top-0 tw-left-0 tw-flex tw-items-center tw-z-10 tw-pointer-events-none">
         <button v-if="editMode"
-                class="dsm-button shadow-sm border border-solid border-slate-200 mt-2 ml-1 bg-white p-1 rounded-full self-start pointer-events-auto hover:bg-slate-200"
+                class="tw-shadow-sm tw-border tw-border-solid tw-border-slate-200 tw-mt-2 tw-ml-1 tw-bg-white tw-p-1 tw-rounded-full tw-self-start tw-pointer-events-auto hover:tw-bg-slate-200"
                 @click="copyElement(groupIndex, index)">
-          <span class="text-md icon icon-copy"></span>
+          <span class="tw-text-md dsm-icon dsm-icon-copy"></span>
         </button>
         <button v-if="editMode"
-                class="dsm-button shadow-sm border border-solid border-slate-200 mt-2 ml-1 bg-white p-1 rounded-full self-start pointer-events-auto hover:bg-slate-200"
+                class="tw-shadow-sm tw-border tw-border-solid tw-border-slate-200 tw-mt-2 tw-ml-1 tw-bg-white tw-p-1 tw-rounded-full tw-self-start tw-pointer-events-auto hover:tw-bg-slate-200"
                 @click="deleteElement(groupIndex, index)">
-          <span class="text-md icon icon-delete"></span>
+          <span class="tw-text-md dsm-icon dsm-icon-delete"></span>
         </button>
       </div>
-      <div class="thumbnail relative"
+      <div class="thumbnail | tw-relative"
            @click="editing(groupIndex, index, true)">
-        <div class="dsm p-1 w-fit absolute
-                       left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div class="dsm tw-p-1 tw-w-fit tw-absolute
+                       tw-left-1/2 tw-top-1/2 tw--translate-x-1/2 tw--translate-y-1/2">
           <div ref="itemElement"
-               class="unreset"
                v-html="item.html"></div>
         </div>
       </div>
       <div v-if="item.name || item.description"
-           class="text-slate-500 thumbnail-info overflow-hidden w-full pt-1 pb-2 px-2 border-0 border-t border-solid border-slate-200">
-        <h4 class="m-0 text-sm whitespace-nowrap overflow-hidden overflow-ellipsis">
+           class="thumbnail-info tw-text-slate-500 tw-overflow-hidden tw-w-full tw-pt-1 tw-pb-2 tw-px-2 tw-border-0 tw-border-t tw-border-solid tw-border-slate-200">
+        <h4 class="tw-m-0 tw-text-sm tw-whitespace-nowrap tw-overflow-hidden tw-overflow-ellipsis">
           {{ item.name }}
         </h4>
-        <p class="m-0 font-light text-sm whitespace-nowrap overflow-hidden overflow-ellipsis">
+        <p class="tw-m-0 tw-font-light tw-text-sm tw-whitespace-nowrap tw-overflow-hidden tw-overflow-ellipsis">
           {{ item.description }}
         </p>
       </div>

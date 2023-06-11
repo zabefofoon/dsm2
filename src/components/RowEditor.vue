@@ -1,27 +1,27 @@
 <template>
-  <div class="bg-white shadow-md p-4"
+  <div class="tw-bg-white tw-shadow-md tw-p-4"
        v-click-away="() => !touchable && close()"
        tabindex="0"
        @keydown.stop>
-    <div class="flex gap-1 mb-4">
+    <div class="tw-flex tw-gap-1 tw-mb-4">
       <button v-if="editMode"
-              class="dsm-button bg-white border border-solid border-slate-200 rounded-full p-1 h-fit shadow-md"
+              class="tw-bg-white tw-border tw-border-solid tw-border-slate-200 tw-rounded-full tw-p-1 tw-h-fit tw-shadow-md"
               @click="copyElement">
-        <span class="text-lg icon icon-copy"></span>
+        <span class="tw-text-lg dsm-icon dsm-icon-copy"></span>
       </button>
       <button v-if="editMode"
-              class="dsm-button bg-white border border-solid border-slate-200 rounded-full p-1 h-fit shadow-md"
+              class="tw-bg-white tw-border tw-border-solid tw-border-slate-200 tw-rounded-full tw-p-1 tw-h-fit tw-shadow-md"
               @click="deleteElement">
-        <span class="text-lg icon icon-delete"></span>
+        <span class="tw-text-lg dsm-icon dsm-icon-delete"></span>
       </button>
       <button v-if="showCloseButton"
-              class="dsm-button bg-white border border-solid border-slate-200 rounded-full p-1 h-fit shadow-md"
+              class="tw-bg-white tw-border tw-border-solid tw-border-slate-200 tw-rounded-full tw-p-1 tw-h-fit tw-shadow-md"
               @click="close">
-        <span class="text-lg icon icon-close"></span>
+        <span class="tw-text-lg dsm-icon dsm-icon-close"></span>
       </button>
     </div>
-    <div class="mb-4">
-      <input class="w-full p-2 mb-2 border border-0 border-b border-slate-300"
+    <div class="tw-mb-4">
+      <input class="tw-w-full tw-p-2 tw-mb-2 tw-border tw-border-0 tw-border-b tw-border-slate-300"
              type="text"
              placeholder="name"
              :value="item.name"
@@ -29,7 +29,7 @@
              :readonly="!editMode"
              @focusin="$emit('edit-start')"
              @focusout="$emit('edit-end')"/>
-      <input class="w-full p-2 border border-0 border-b border-slate-300"
+      <input class="tw-w-full tw-p-2 tw-border tw-border-0 tw-border-b tw-border-slate-300"
              placeholder="description"
              :value="item.description"
              @change="changeItem('description', $event)"
@@ -37,10 +37,10 @@
              @focusin="$emit('edit-start')"
              @focusout="$emit('edit-end')"/>
     </div>
-    <div class="flex gap-1">
-      <div class="flex-1 overflow-auto shadow-md p-4">
-        <h4 class="mb-2">html</h4>
-        <div class="max-h-96">
+    <div class="tw-flex tw-gap-1">
+      <div class="tw-flex-1 tw-overflow-auto tw-shadow-md tw-p-4">
+        <h4 class="tw-mb-2">html</h4>
+        <div class="tw-max-h-96">
           <codemirror :model-value="item.html"
                       @change="changeItem('html', $event)"
                       placeholder="Html goes here..."
@@ -51,9 +51,9 @@
                       @focusout="$emit('edit-end')"/>
         </div>
       </div>
-      <div class="flex-1 overflow-auto shadow-md p-4">
-        <h4 class="mb-2">css</h4>
-        <div class="max-h-96">
+      <div class="tw-flex-1 tw-overflow-auto tw-shadow-md tw-p-4">
+        <h4 class="tw-mb-2">css</h4>
+        <div class="tw-max-h-96">
           <codemirror :model-value="item.css"
                       @change="changeItem('css', $event)"
                       placeholder="Css goes here..."
@@ -64,10 +64,9 @@
                       @focusout="$emit('edit-end')"/>
         </div>
       </div>
-      <div class="dsm flex-2 overflow-auto shadow-md p-4">
-        <h4 class="mb-2">preview</h4>
-        <div class="unreset"
-             v-html="item.html"
+      <div class="dsm tw-flex-2 tw-overflow-auto tw-shadow-md tw-p-4">
+        <h4 class="tw-mb-2">preview</h4>
+        <div v-html="item.html"
              @focusin="$emit('edit-start')"
              @focusout="$emit('edit-end')"></div>
       </div>

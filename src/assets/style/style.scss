@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
 @import "modal";
+@import "icon";
+@import "preflight.css";
 
 html, body {
   margin: 0;
@@ -8,12 +10,6 @@ html, body {
 
 * {
   box-sizing: border-box;
-}
-
-.dsm-button {
-  outline: none;
-  border: inherit;
-  cursor: pointer;
 }
 
 @tailwind base;
@@ -43,90 +39,6 @@ html, body {
   background: #555;
 }
 
-.flex-2 {
+.tw-flex-2 {
   flex: 2 1 0;
-}
-
-.icon {
-  display: block;
-  width: 1em;
-  height: 1em;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  background-color: currentColor;
-}
-
-.icon-widgets {
-  $src: 'https://api.iconify.design/material-symbols/widgets-outline.svg';
-  -webkit-mask-image: url($src);
-  mask-image: url($src);
-}
-
-.icon-bullet {
-  $src: 'https://api.iconify.design/zondicons/list-bullet.svg';
-  -webkit-mask-image: url($src);
-  mask-image: url($src);
-}
-
-.icon-code {
-  $src: 'https://api.iconify.design/material-symbols/code.svg';
-  -webkit-mask-image: url($src);
-  mask-image: url($src);
-}
-
-.icon-save {
-  $src: 'https://api.iconify.design/mdi/content-save-all-outline.svg';
-  -webkit-mask-image: url($src);
-  mask-image: url($src);
-}
-
-.icon-copy {
-  $src: 'https://api.iconify.design/mdi/content-copy.svg';
-  -webkit-mask-image: url($src);
-  mask-image: url($src);
-}
-
-.icon-add {
-  $src: 'https://api.iconify.design/material-symbols/add-circle-outline.svg';
-  -webkit-mask-image: url($src);
-  mask-image: url($src);
-}
-
-.icon-delete {
-  $src: 'https://api.iconify.design/material-symbols/delete-outline.svg';
-  -webkit-mask-image: url($src);
-  mask-image: url($src);
-}
-
-.icon-arrow-top {
-  $src: 'https://api.iconify.design/ic/baseline-keyboard-arrow-up.svg';
-  -webkit-mask-image: url($src);
-  mask-image: url($src);
-}
-
-.icon-arrow-bottom {
-  $src: 'https://api.iconify.design/ic/baseline-keyboard-arrow-down.svg';
-  -webkit-mask-image: url($src);
-  mask-image: url($src);
-}
-
-.icon-close {
-  $src: 'https://api.iconify.design/ic/outline-close.svg';
-  -webkit-mask-image: url($src);
-  mask-image: url($src);
-}
-
-.icon-download {
-  $src: 'https://api.iconify.design/material-symbols/download.svg';
-  -webkit-mask-image: url($src);
-  mask-image: url($src);
-}
-
-
-.icon-copy {
-  $src: 'https://api.iconify.design/material-symbols/content-copy-outline.svg';
-  -webkit-mask-image: url($src);
-  mask-image: url($src);
 }

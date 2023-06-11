@@ -1,10 +1,10 @@
 <template>
-  <button class="dsm-button add-button bg-transparent border border-dashed border-slate-400 text-slate-500
-  flex items-center justify-center self-start"
+  <button class="add-button | tw-bg-transparent tw-border tw-border-dashed tw-border-slate-400 tw-text-slate-500
+  tw-flex tw-items-center tw-justify-center tw-self-start"
           @click="addElement"
           @drag.stop>
-    <span class="icon icon-add text-xl">add_circle_outline</span>
-    <span v-if="caption" class="caption ml-2">{{ caption }}</span>
+    <span class="dsm-icon dsm-icon-add tw-text-xl">add_circle_outline</span>
+    <span v-if="caption" class="caption tw-ml-2">{{ caption }}</span>
   </button>
 </template>
 

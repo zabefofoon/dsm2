@@ -1,17 +1,17 @@
 <template>
-  <div class="bg-white p-4 shadow-md relative">
-    <div class="sticky pt-4 ml-auto top-20 h-0 flex items-center justify-end w-full gap-2">
-      <button class="dsm-button border border-solid border-slate-200 bg-white block rounded-full p-2 h-fit shadow-md"
+  <div class="tw-bg-white tw-p-4 tw-shadow-md tw-relative">
+    <div class="tw-sticky tw-pt-4 tw-ml-auto tw-top-20 tw-h-0 tw-flex tw-items-center tw-justify-end tw-w-full tw-gap-2">
+      <button class="tw-border tw-border-solid tw-border-slate-200 tw-bg-white tw-block tw-rounded-full tw-p-2 tw-h-fit tw-shadow-md"
               @click="download()">
-        <span class="text-xl icon icon-download"></span>
+        <span class="tw-text-xl dsm-icon dsm-icon-download"></span>
       </button>
       <button v-if="checkAllowedClipboard()"
-              class="dsm-button border border-solid border-slate-200 bg-white block rounded-full p-2 h-fit shadow-md"
+              class="tw-border tw-border-solid tw-border-slate-200 tw-bg-white tw-block tw-rounded-full tw-p-2 tw-h-fit tw-shadow-md"
               @click="copyToClipboard()">
-        <span class="text-xl icon icon-copy"></span>
+        <span class="tw-text-xl dsm-icon dsm-icon-copy"></span>
       </button>
     </div>
-    <textarea class="outline-0 w-full h-fit m-0 p-0 border-0"
+    <textarea class="tw-outline-0 tw-w-full tw-h-fit tw-m-0 tw-p-0 tw-border-0"
               readonly
               :value="cssValue"
               :style="{height: `${calcHeight(cssValue)}px`}"></textarea>

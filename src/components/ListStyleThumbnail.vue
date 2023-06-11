@@ -1,20 +1,19 @@
 <template>
   <draggable v-bind="dragOptions"
-             :list="groups"
+             :list="groups || []"
              :group="{put: false}"
              :disabled="disableDrag"
              filter=".ignore-elements"
              @change="onGroupsChange">
     <div v-for="(group, groupIndex) in groups"
          :key="groupIndex"
-         class="mb-2">
-      <div class="flex items-center mb-2">
-        <button class="dsm-button"
-                @click="toggleGroupHide(groupIndex)">
-          <span v-if="isGroupHide[groupIndex]" class="text-xl icon icon-arrow-top"></span>
-          <span v-else class="text-xl icon icon-arrow-bottom"></span>
+         class="tw-mb-2">
+      <div class="tw-flex tw-items-center tw-mb-2">
+        <button @click="toggleGroupHide(groupIndex)">
+          <span v-if="isGroupHide[groupIndex]" class="tw-text-xl dsm-icon dsm-icon-arrow-top"></span>
+          <span v-else class="tw-text-xl dsm-icon dsm-icon-arrow-bottom"></span>
         </button>
-        <input class="bg-transparent px-1 text-lg border border-0 border-b border-slate-400"
+        <input class="tw-bg-transparent tw-px-1 tw-text-lg tw-border tw-border-0 tw-border-b tw-border-slate-400"
                placeholder="group name"
                :readonly="!editMode"
                :value="group.name"
@@ -22,8 +21,8 @@
       </div>
 
       <div v-if="isGroupHide[groupIndex]"
-           class="flex flex-wrap items-center gap-2">
-        <draggable class="w-full mb-1 grid grid-cols-2 md:flex gap-2 flex-wrap items-start"
+           class="tw-flex tw-flex-wrap tw-items-center tw-gap-2">
+        <draggable class="tw-w-full tw-mb-1 tw-grid tw-grid-cols-2 md:tw-flex tw-gap-2 tw-flex-wrap tw-items-start"
                    :list="group.items"
                    v-bind="dragOptions"
                    draggable=".draggable"
@@ -44,7 +43,7 @@
                        @delete="deleteElement"
                        @copy="copyElement"/>
             <div v-if="isEdit[groupIndex].findIndex((edit) => edit) === index"
-                 class="hidden md:block w-full">
+                 class="tw-hidden md:tw-block tw-w-full">
               <RowEditor :item="group.items[isEdit[groupIndex].findIndex((item) => item)]"
                          :edit-mode="editMode"
                          show-close-button
@@ -65,7 +64,7 @@
     </div>
   </draggable>
   <AddMarkupButton v-if="editMode"
-                   class="w-full p-2"
+                   class="tw-w-full tw-p-2"
                    caption="Group"
                    @add="addGroup"/>
 </template>
