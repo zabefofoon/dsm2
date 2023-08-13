@@ -97,7 +97,7 @@ const props = defineProps({
   editMode: Boolean
 })
 
-const emit = defineEmits(['done'])
+const emit = defineEmits(['done', 'edit-end', 'edit-start'])
 
 const dataForEmit = ref({
   name: props.item?.name,
