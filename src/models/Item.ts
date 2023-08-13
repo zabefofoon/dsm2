@@ -1,4 +1,4 @@
-import util from "../util/util"
+import {generateUniqueId} from "../util/util"
 
 export class Group {
   name = ""
@@ -13,7 +13,7 @@ export class Item {
   description = ''
 
   constructor() {
-    this.id = util.generateUniqueId()
+    this.id = generateUniqueId()
   }
 
   setName(value: string): this {

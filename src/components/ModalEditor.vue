@@ -15,14 +15,14 @@
                  placeholder="name"
                  v-model="dataForEmit.name"
                  :readonly="!editMode"
-                 @focusin="$emit('edit-start')"
-                 @focusout="$emit('edit-end')"/>
+                 @focusin="emit('edit-start')"
+                 @focusout="emit('edit-end')"/>
           <input class="tw-w-full tw-p-2 tw-border tw-border-0 tw-border-b tw-border-slate-300"
                  placeholder="description"
                  v-model="dataForEmit.description"
                  :readonly="!editMode"
-                 @focusin="$emit('edit-start')"
-                 @focusout="$emit('edit-end')"/>
+                 @focusin="emit('edit-start')"
+                 @focusout="emit('edit-end')"/>
         </div>
         <div class="tw-flex">
           <button class="tw-w-full tw-py-2"
@@ -47,8 +47,8 @@
                                fontSize: '.9rem' }"
                         :tab-size="4"
                         :extensions="[html()]"
-                        @focusin="$emit('edit-start')"
-                        @focusout="$emit('edit-end')"/>
+                        @focusin="emit('edit-start')"
+                        @focusout="emit('edit-end')"/>
           </div>
           <div v-if="tabMode === 'Css'"
                class="tw-flex-1 tw-overflow-auto tw-shadow-md tw-p-4">
@@ -58,14 +58,14 @@
                                fontSize: '.9rem' }"
                         :tab-size="4"
                         :extensions="[css()]"
-                        @focusin="$emit('edit-start')"
-                        @focusout="$emit('edit-end')"/>
+                        @focusin="emit('edit-start')"
+                        @focusout="emit('edit-end')"/>
           </div>
           <div v-if="tabMode === 'Preview'"
                class="dsm tw-flex-2 tw-overflow-auto tw-shadow-md">
             <div v-html="dataForEmit.html"
-                 @focusin="$emit('edit-start')"
-                 @focusout="$emit('edit-end')"></div>
+                 @focusin="emit('edit-start')"
+                 @focusout="emit('edit-end')"></div>
           </div>
         </div>
       </div>
@@ -87,7 +87,7 @@
 <script setup lang="ts">
 import {VueFinalModal} from 'vue-final-modal'
 import {Item} from "../models/Item"
-import {defineEmits, ref} from "vue"
+import {ref} from "vue"
 import {Codemirror} from 'vue-codemirror'
 import {html} from "@codemirror/lang-html"
 import {css} from "@codemirror/lang-css"

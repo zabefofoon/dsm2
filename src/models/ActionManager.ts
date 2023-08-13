@@ -57,5 +57,4 @@ export class ActionManager {
     this.groups = groups
     return this
   }
-
 }

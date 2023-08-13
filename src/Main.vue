@@ -7,10 +7,9 @@
               @click="setListStyle('thumbnail');toggleAllCode(false)">
         <span class="tw-text-lg dsm-icon dsm-icon-widgets"></span>
       </button>
-      <button
-          class="tw-hidden md:tw-inline-block tw-border tw-border-solid tw-border-slate-200 tw-shadow-lg tw-h-fit tw-p-2 tw-bg-white tw-rounded-full"
-          :class="{active: !isShowAllCodes && listStyle === 'bullet'}"
-          @click="setListStyle('bullet');toggleAllCode(false)">
+      <button class="tw-hidden md:tw-inline-block tw-border tw-border-solid tw-border-slate-200 tw-shadow-lg tw-h-fit tw-p-2 tw-bg-white tw-rounded-full"
+              :class="{active: !isShowAllCodes && listStyle === 'bullet'}"
+              @click="setListStyle('bullet');toggleAllCode(false)">
         <span class="tw-text-lg dsm-icon dsm-icon-bullet"></span>
       </button>
       <button class="tw-border tw-border-solid tw-border-slate-200 tw-shadow-lg tw-h-fit tw-p-2 tw-bg-white tw-rounded-full"
@@ -20,7 +19,7 @@
       </button>
       <button v-if="editMode"
               class="tw-border tw-border-solid tw-border-slate-200 tw-shadow-lg tw-h-fit tw-p-2 tw-bg-white tw-rounded-full"
-              @click="postSave">
+              @click="postParentSave(deepClone(groups))">
         <span class="tw-text-lg dsm-icon dsm-icon-save"></span>
       </button>
     </div>
@@ -62,78 +61,95 @@ import ListStyleBullet from "./components/ListStyleBullet.vue"
 import ListStyleThumbnail from "./components/ListStyleThumbnail.vue"
 import AllCodes from "./components/AllCodes.vue"
 import {ActionManager} from "./models/ActionManager"
+import {postParentGroupsMutation, postParentSave} from "./messenger/postToParent.msg"
 
 import {
   AddAction,
   AddGroupAction,
-  ChangeGroupName, ChangeItem,
+  ChangeGroupName,
+  ChangeItem,
   CopyAction,
   DragGroupsMovedAction,
   DragMovedAction,
   DragRemovedAction,
   RemoveAction
 } from "./models/BasicActions"
-import util, {NonFunctionPropertyNames} from "./util/util"
+import {deepClone, generateUniqueId, NonFunctionPropertyNames} from "./util/util"
+import {receiveFromParentMsg} from "./messenger/receiveFromParent.msg"
+import {generateCss} from "./util/generateCss"
+
+const editMode = computed(() => location.search.includes('edit=true'))
 
 type ListType = 'thumbnail' | 'bullet'
 
 const listStyle = ref<ListType>('thumbnail')
-const setListStyle = (listType: ListType): void => {
-  listStyle.value = listType
-}
-const groups = ref<Group[]>([])
-const actionManager = ref(new ActionManager(groups.value))
+const setListStyle = (listType: ListType) => listStyle.value = listType
 
+const isShowAllCodes = ref(false)
+const toggleAllCode = (value: boolean) => isShowAllCodes.value = value
+
+const createCss = computed(() => generateCss(groups.value))
+
+const groups = ref<Group[]>([])
 const setGroups = (_groups: Group[]) => {
   groups.value = _groups.map((group) => {
     group.items = group.items.map((item) => {
-      if (!item.id) item.id = util.generateUniqueId()
+      if (!item.id) item.id = generateUniqueId()
       return item
     })
     return group
   })
   actionManager.value.setGroups(groups.value)
 }
-window.addEventListener('keydown', ($event: KeyboardEvent) => {
-  if ($event.key.toLowerCase() === 'z'
-      && ($event.ctrlKey || $event.metaKey)) {
-    $event.preventDefault()
-    $event.shiftKey
-        ? actionManager.value.executeRedo()
-        : actionManager.value.executeUndo()
-    postEditRealtime()
-  }
-})
+
+const actionManager = ref(new ActionManager(groups.value))
 
 const addGroup = () => {
   actionManager.value.execute(AddGroupAction.of())
-  postEditRealtime()
+  postParentGroupsMutation(groups.value)
 }
 
 const addElement = (groupIndex: number) => {
   actionManager.value.execute(AddAction.of(groupIndex))
-  postEditRealtime()
+  postParentGroupsMutation(groups.value)
 }
 const deleteElement = (groupIndex: number, rowIndex: number) => {
   actionManager.value.execute(RemoveAction.of(groupIndex, rowIndex))
-  postEditRealtime()
+  postParentGroupsMutation(groups.value)
 }
 const copyElement = (groupIndex: number, rowIndex: number) => {
   actionManager.value.execute(CopyAction.of(groupIndex, rowIndex))
-  postEditRealtime()
+  postParentGroupsMutation(groups.value)
 }
 
-const isShowAllCodes = ref(false)
-const toggleAllCode = (value: boolean) => {
-  isShowAllCodes.value = value
+const checkTouchable = () => ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
+const touchable = ref(checkTouchable())
+const screen = ref(document.body.clientWidth > 768 ? 'md' : 'sm')
+
+const onMessage = (event: MessageEvent) => {
+  const [type, {groups}] = receiveFromParentMsg(event)
+  if (['injectGroups'].includes(type))
+    setGroups(groups)
 }
+const onChangeGroup = (groupIndex: number,
+                       value: string) => {
+  actionManager.value.execute(ChangeGroupName.of(groupIndex, value))
+  postParentGroupsMutation(groups.value)
+}
+
+const onChangeItem = (id: string,
+                      field: NonFunctionPropertyNames<Item>,
+                      value: string) => {
+  actionManager.value.execute(ChangeItem.of(id, field, value))
+  postParentGroupsMutation(groups.value)
+}
+
 const dragData = {
   fromGroupIndex: 0,
   fromItemIndex: 0,
   toGroupIndex: 0,
   toItemIndex: 0
 }
-
 const onDrag = (groupIndex: number, event: ItemDragEvent) => {
   if (event.moved) {
     actionManager.value.execute(DragMovedAction.of(groupIndex, Number(event.moved.newIndex), Number(event.moved.oldIndex)))
@@ -145,7 +161,7 @@ const onDrag = (groupIndex: number, event: ItemDragEvent) => {
     dragData.fromItemIndex = Number(event.removed.oldIndex)
 
     actionManager.value.execute(DragRemovedAction.of(JSON.parse(JSON.stringify(dragData))))
-    postEditRealtime()
+    postParentGroupsMutation(groups.value)
   }
 }
 
@@ -153,36 +169,23 @@ const onDragGroups = (event: ItemDragEvent) => {
   if (event.moved) {
     const {newIndex, oldIndex} = event.moved
     actionManager.value.execute(DragGroupsMovedAction.of(newIndex, oldIndex))
-    postEditRealtime()
+    postParentGroupsMutation(groups.value)
   }
 }
 
-const createCss = computed(() => groups.value
-    .map((group) => group.items)
-    .flat()
-    .reduce((acc, current) => current?.css
-        ? acc + current.css
-        : acc, ''))
+window.addEventListener('message', onMessage)
 
-const editMode = computed(() => location.search.includes('save=true'))
-
-const postSave = () => window.parent.postMessage({
-  type: 'saveGroups',
-  groups: JSON.stringify(groups.value)
-}, '*')
-
-const onMessage = () => (event: MessageEvent) => {
-  if (event.data.type === 'loadGroups') setGroups(event.data.groups)
-  if (event.data.type === 'realtimeSetGroups') {
-    setGroups(event.data.groups)
+window.addEventListener('keydown', ($event: KeyboardEvent) => {
+  if ($event.key.toLowerCase() === 'z'
+      && ($event.ctrlKey || $event.metaKey)) {
+    $event.preventDefault()
+    $event.shiftKey
+        ? actionManager.value.executeRedo()
+        : actionManager.value.executeUndo()
+    postParentGroupsMutation(groups.value)
   }
-}
+})
 
-window.addEventListener('message', onMessage())
-
-const checkTouchable = () => ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
-const touchable = ref(checkTouchable())
-const screen = ref(document.body.clientWidth > 768 ? 'md' : 'sm')
 window.addEventListener('resize', () => {
   touchable.value = checkTouchable()
   screen.value = document.body.clientWidth > 768 ? 'md' : 'sm'
@@ -190,24 +193,6 @@ window.addEventListener('resize', () => {
 
 provide('touchable', touchable)
 provide('screen', screen)
-
-const postEditRealtime = () => window.parent.postMessage({
-  type: 'editRealtime',
-  groups: JSON.stringify(groups.value)
-}, '*')
-
-const onChangeGroup = (groupIndex: number,
-                       value: string) => {
-  actionManager.value.execute(ChangeGroupName.of(groupIndex, value))
-  postEditRealtime()
-}
-
-const onChangeItem = (id: string,
-                      field: NonFunctionPropertyNames<Item>,
-                      value: string) => {
-  actionManager.value.execute(ChangeItem.of(id, field, value))
-  postEditRealtime()
-}
 </script>
 
 <style scoped lang="scss">
