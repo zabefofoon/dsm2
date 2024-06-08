@@ -1,17 +1,17 @@
-import {Action} from "./ActionManager"
-import {Group, Item} from "./Item"
-import {generateUniqueId, NonFunctionPropertyNames} from "../util/util"
+import { type NonFunctionPropertyNames, generateUniqueId } from '../util/util'
+import type { Action } from './ActionManager'
+import { Group, Item } from './Item'
 
 export class CopyAction implements Action {
   readonly actionName = 'Copy'
   deletedItem?: Item
 
-  constructor(private groupIndex: number,
-              private rowIndex: number) {
-  }
+  constructor(private groupIndex: number, private rowIndex: number) {}
 
   do(groups: Group[]): void {
-    const copied = <Item>JSON.parse(JSON.stringify(groups[this.groupIndex].items[this.rowIndex]))
+    const copied = <Item>(
+      JSON.parse(JSON.stringify(groups[this.groupIndex].items[this.rowIndex]))
+    )
     copied.id = generateUniqueId()
     copied.name = `[Copy]${copied.name}`
     groups[this.groupIndex].items.splice(this.rowIndex, 0, copied)
@@ -31,14 +31,12 @@ export class CopyAction implements Action {
   }
 }
 
-
 export class RemoveAction implements Action {
   readonly actionName = 'Remove'
   deletedItems?: Item[]
   deletedGroup?: Group
 
-  constructor(private groupIndex: number, private rowIndex: number) {
-  }
+  constructor(private groupIndex: number, private rowIndex: number) {}
 
   do(groups: Group[]): void {
     this.deletedItems = groups[this.groupIndex].items.splice(this.rowIndex, 1)
@@ -50,7 +48,7 @@ export class RemoveAction implements Action {
     if (this.deletedGroup) {
       groups.splice(this.groupIndex, 0, this.deletedGroup)
     }
-    this.deletedItems?.forEach((item) => {
+    this.deletedItems?.forEach(item => {
       groups[this.groupIndex].items.splice(this.rowIndex, 0, item)
     })
   }
@@ -67,18 +65,19 @@ export class RemoveAction implements Action {
 export class DragMovedAction implements Action {
   readonly actionName = 'DragMoved'
 
-  constructor(private groupIndex: number,
-              private newIndex: number,
-              private oldIndex: number) {
-  }
+  constructor(
+    private groupIndex: number,
+    private newIndex: number,
+    private oldIndex: number
+  ) {}
 
   do(groups: Group[]): void {
-    const item = groups[this.groupIndex].items.splice((this.newIndex), 1)[0]
+    const item = groups[this.groupIndex].items.splice(this.newIndex, 1)[0]
     groups[this.groupIndex].items.splice(Number(this.newIndex), 0, item)
   }
 
   undo(groups: Group[]): void {
-    const item = groups[this.groupIndex].items.splice((this.newIndex), 1)[0]
+    const item = groups[this.groupIndex].items.splice(this.newIndex, 1)[0]
     groups[this.groupIndex].items.splice(Number(this.oldIndex), 0, item)
   }
 
@@ -86,39 +85,63 @@ export class DragMovedAction implements Action {
     this.do(groups)
   }
 
-  static of(groupIndex: number, rowIndex: number, oldIndex: number): DragMovedAction {
+  static of(
+    groupIndex: number,
+    rowIndex: number,
+    oldIndex: number
+  ): DragMovedAction {
     return new DragMovedAction(groupIndex, rowIndex, oldIndex)
   }
 }
 
 export type DragData = {
-  fromGroupIndex: number,
-  fromItemIndex: number,
-  toGroupIndex: number,
+  fromGroupIndex: number
+  fromItemIndex: number
+  toGroupIndex: number
   toItemIndex: number
 }
 
 export class DragRemovedAction implements Action {
   readonly actionName = 'DragAdded'
 
-  constructor(private dragData: DragData) {
-  }
+  constructor(private dragData: DragData) {}
 
   do(groups: Group[]): void {
-    const item = groups[this.dragData.toGroupIndex].items[this.dragData.toItemIndex]
-    groups[this.dragData.toGroupIndex].items.splice(this.dragData.toItemIndex, 1, item)
+    const item =
+      groups[this.dragData.toGroupIndex].items[this.dragData.toItemIndex]
+    groups[this.dragData.toGroupIndex].items.splice(
+      this.dragData.toItemIndex,
+      1,
+      item
+    )
   }
 
   undo(groups: Group[]): void {
-    const item = groups[this.dragData.toGroupIndex].items[this.dragData.toItemIndex]
-    groups[this.dragData.fromGroupIndex].items.splice(this.dragData.fromItemIndex, 1, item)
-    groups[this.dragData.toGroupIndex].items.splice(this.dragData.toItemIndex, 1)
+    const item =
+      groups[this.dragData.toGroupIndex].items[this.dragData.toItemIndex]
+    groups[this.dragData.fromGroupIndex].items.splice(
+      this.dragData.fromItemIndex,
+      1,
+      item
+    )
+    groups[this.dragData.toGroupIndex].items.splice(
+      this.dragData.toItemIndex,
+      1
+    )
   }
 
   redo(groups: Group[]): void {
-    const item = groups[this.dragData.fromGroupIndex].items[this.dragData.fromItemIndex]
-    groups[this.dragData.toGroupIndex].items.splice(this.dragData.toItemIndex, 0, item)
-    groups[this.dragData.fromGroupIndex].items.splice(this.dragData.fromItemIndex, 1)
+    const item =
+      groups[this.dragData.fromGroupIndex].items[this.dragData.fromItemIndex]
+    groups[this.dragData.toGroupIndex].items.splice(
+      this.dragData.toItemIndex,
+      0,
+      item
+    )
+    groups[this.dragData.fromGroupIndex].items.splice(
+      this.dragData.fromItemIndex,
+      1
+    )
   }
 
   static of(dragData: DragData): DragRemovedAction {
@@ -129,15 +152,17 @@ export class DragRemovedAction implements Action {
 export class AddAction implements Action {
   readonly actionName = 'Add'
 
-  constructor(private groupIndex: number) {
-  }
+  constructor(private groupIndex: number) {}
 
   do(groups: Group[]): void {
     groups[this.groupIndex].items.push(new Item())
   }
 
   undo(groups: Group[]): void {
-    groups[this.groupIndex].items.splice(groups[this.groupIndex].items.length - 1, 1)
+    groups[this.groupIndex].items.splice(
+      groups[this.groupIndex].items.length - 1,
+      1
+    )
   }
 
   redo(groups: Group[]): void {
@@ -153,7 +178,7 @@ export class AddGroupAction implements Action {
   readonly actionName = 'AddGroup'
 
   do(groups: Group[]): void {
-    groups.push({name: '', items: [new Item()]})
+    groups.push({ name: '', items: [new Item()] })
   }
 
   undo(groups: Group[]): void {
@@ -172,9 +197,7 @@ export class AddGroupAction implements Action {
 export class DragGroupsMovedAction implements Action {
   readonly actionName = 'DragGroupsMoved'
 
-  constructor(private newIndex: number,
-              private oldIndex: number,) {
-  }
+  constructor(private newIndex: number, private oldIndex: number) {}
 
   do(groups: Group[]): void {
     const group = groups.splice(this.newIndex, 1)[0]
@@ -191,8 +214,7 @@ export class DragGroupsMovedAction implements Action {
     groups.splice(this.oldIndex, 0, group)
   }
 
-  static of(newIndex = 0,
-            oldIndex = 0): DragGroupsMovedAction {
+  static of(newIndex = 0, oldIndex = 0): DragGroupsMovedAction {
     return new DragGroupsMovedAction(newIndex, oldIndex)
   }
 }
@@ -201,9 +223,7 @@ export class ChangeGroupName implements Action {
   readonly actionName = 'ChangeGroupName'
   private oldName = ''
 
-  constructor(private groupIndex: number,
-              private value: string) {
-  }
+  constructor(private groupIndex: number, private value: string) {}
 
   do(groups: Group[]): void {
     this.oldName = groups[this.groupIndex].name
@@ -228,15 +248,16 @@ export class ChangeItem implements Action {
 
   oldValue = ''
 
-  constructor(private readonly id: string,
-              private readonly field: NonFunctionPropertyNames<Item>,
-              private readonly value: string) {
-  }
+  constructor(
+    private readonly id: string,
+    private readonly field: NonFunctionPropertyNames<Item>,
+    private readonly value: string
+  ) {}
 
   do(groups: Group[]): void {
     const found = groups
-        .flatMap((group) => group.items)
-        .find((item) => item.id === this.id)
+      .flatMap(group => group.items)
+      .find(item => item.id === this.id)
     if (found) {
       this.oldValue = found[this.field] || ''
       found[this.field] = this.value
@@ -245,8 +266,8 @@ export class ChangeItem implements Action {
 
   undo(groups: Group[]): void {
     const found = groups
-        .flatMap((group) => group.items)
-        .find((item) => item.id === this.id)
+      .flatMap(group => group.items)
+      .find(item => item.id === this.id)
 
     if (found) {
       found[this.field] = this.oldValue
@@ -258,7 +279,53 @@ export class ChangeItem implements Action {
     this.do(groups)
   }
 
-  static of(id: string, field: NonFunctionPropertyNames<Item>, value: string): ChangeItem {
+  static of(
+    id: string,
+    field: NonFunctionPropertyNames<Item>,
+    value: string
+  ): ChangeItem {
     return new ChangeItem(id, field, value)
+  }
+}
+
+export class SetItem implements Action {
+  readonly actionName = 'SetItem'
+
+  oldValue?: Partial<Item>
+
+  constructor(private readonly newItem: Partial<Item>) {}
+
+  do(groups: Group[]): void {
+    const found = groups
+      .flatMap(group => group.items)
+      .find(item => item.id === this.newItem.id)
+
+    if (found) {
+      this.oldValue = JSON.parse(JSON.stringify(found))
+      found.css = this.newItem.css!
+      found.html = this.newItem.html!
+      found.name = this.newItem.name!
+      found.description = this.newItem.description!
+    }
+  }
+
+  undo(groups: Group[]): void {
+    const found = groups
+      .flatMap(group => group.items)
+      .find(item => item.id === this.oldValue?.id)
+    if (found) {
+      found.css = this.oldValue!.css!
+      found.html = this.oldValue!.html!
+      found.name = this.oldValue!.name!
+      found.description = this.oldValue!.description!
+    }
+  }
+
+  redo(groups: Group[]): void {
+    this.do(groups)
+  }
+
+  static of(newItem: Partial<Item>): SetItem {
+    return new SetItem(newItem)
   }
 }
